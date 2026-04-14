@@ -8,8 +8,6 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-const RAZORPAY_KEY_ID = Deno.env.get('RAZORPAY_KEY_ID') ?? ''
-const RAZORPAY_KEY_SECRET = Deno.env.get('RAZORPAY_KEY_SECRET') ?? ''
 const RAZORPAY_BASE_URL = 'https://api.razorpay.com/v1'
 
 function basicAuth(keyId: string, keySecret: string): string {
@@ -57,11 +55,18 @@ serve(async (req) => {
 
     // ── CREATE ORDER ──────────────────────────────────────────────────────────
     if (action === 'create_order') {
+      const rzpKeyId = (Deno.env.get('RAZORPAY_KEY_ID') ?? '').trim()
+      const rzpKeySecret = (Deno.env.get('RAZORPAY_KEY_SECRET') ?? '').trim()
+
+      if (!rzpKeyId || !rzpKeySecret) {
+        throw new Error('Server configuration error: Razorpay keys are missing on the Edge Function.')
+      }
+
       const response = await fetch(`${RAZORPAY_BASE_URL}/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': basicAuth(RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET),
+          'Authorization': basicAuth(rzpKeyId, rzpKeySecret),
         },
         body: JSON.stringify({
           amount: 2900,          // in paise → ₹29
@@ -84,13 +89,15 @@ serve(async (req) => {
 
     // ── VERIFY PAYMENT ────────────────────────────────────────────────────────
     if (action === 'verify_payment') {
+      const rzpKeySecret = (Deno.env.get('RAZORPAY_KEY_SECRET') ?? '').trim()
+      
       if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature) {
         throw new Error('Missing payment verification fields')
       }
 
       // Verify HMAC signature
       const expectedSignature = await hmacSHA256(
-        RAZORPAY_KEY_SECRET,
+        rzpKeySecret,
         `${razorpay_order_id}|${razorpay_payment_id}`
       )
 
