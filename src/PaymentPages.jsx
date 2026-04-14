@@ -78,7 +78,7 @@ function PaymentPage({ setPage, user }) {
        if (!cf) throw new Error("Cashfree SDK failed to load. Are you online?");
 
        const data = await callEdge(
-         { action: 'create_order' },
+         { action: 'create_order', return_url: window.location.origin + '/payment' },
          session.access_token
        );
 
@@ -87,14 +87,7 @@ function PaymentPage({ setPage, user }) {
 
        cf.checkout({
           paymentSessionId: payment_session_id,
-          redirectTarget: "_modal"
-       }).then((result) => {
-           if (result.error) {
-              setLoading(false);
-           } else {
-              setLoading(true);
-              verifyOrder(order_id);
-           }
+          redirectTarget: "_self"
        });
 
     } catch (e) {
