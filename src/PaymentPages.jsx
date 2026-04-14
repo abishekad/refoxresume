@@ -1,0 +1,228 @@
+import { useState, useEffect } from "react";
+import { NeonButton, GlassCard, AmbientOrb, C } from "./App";
+import { supabase } from "./services/supabase";
+
+const loadCashfree = () => new Promise((resolve) => {
+  if (window.Cashfree) {
+    try { return resolve(window.Cashfree({ mode: "production" })); } catch(e) { return resolve(null); }
+  }
+  const script = document.createElement("script");
+  script.src = "https://sdk.cashfree.com/js/v3/cashfree.js";
+  script.onload = () => {
+     resolve(window.Cashfree({ mode: "production" }));
+  };
+  script.onerror = () => resolve(null);
+  document.body.appendChild(script);
+});
+
+function PaymentPage({ setPage, user }) {
+  const [method, setMethod] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Check if we are returning from Cashfree redirect
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("verify") === "true") {
+       const order_id = params.get("order_id");
+       if (order_id) {
+          verifyOrder(order_id);
+       }
+    }
+  }, []);
+
+  const verifyOrder = async (order_id) => {
+    setLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await supabase.functions.invoke('cashfree-payment', {
+        body: { action: 'verify_order', order_id },
+        headers: { Authorization: `Bearer ${session.access_token}` }
+      });
+      if (res.data && res.data.success) {
+         // Force token refresh to sync the latest user_metadata applied by the Edge Function
+         await supabase.auth.refreshSession();
+         // Small delay guarantees Root.jsx has re-rendered the isPaid state true
+         setTimeout(() => setPage("download"), 600);
+      } else {
+         alert("Payment not successful. Status: " + (res.data?.status || 'Unknown'));
+         setLoading(false);
+      }
+    } catch (e) {
+      alert("Error verifying payment: " + e.message);
+      setLoading(false);
+    }
+  };
+
+  const handlePay = async () => {
+    setLoading(true);
+    try {
+       const { data: { session } } = await supabase.auth.getSession();
+       if (!session) throw new Error("Not logged in");
+
+       const cf = await loadCashfree();
+       if (!cf) throw new Error("Cashfree SDK failed to load. Are you online?");
+
+       const res = await supabase.functions.invoke('cashfree-payment', {
+          body: { action: 'create_order', return_url: window.location.origin + '/payment' },
+          headers: { Authorization: `Bearer ${session.access_token}` }
+       });
+
+       if (res.error) throw new Error(res.error.message || 'Error creating order');
+       const { payment_session_id, order_id } = res.data;
+
+       if (!payment_session_id) throw new Error("No payment session ID returned");
+
+       // Redirect to Cashfree via native SPA Modal (protects against http://localhost bugs)
+       cf.checkout({
+          paymentSessionId: payment_session_id,
+          redirectTarget: "_modal" 
+       }).then((result) => {
+           if (result.error) {
+              setLoading(false); // User closed popup
+           } else {
+              setLoading(true);
+              verifyOrder(order_id);
+           }
+       });
+
+    } catch (e) {
+       alert("Checkout Error: " + (e.message || "Something went wrong."));
+       setLoading(false);
+    }
+  };
+
+  return (
+    <div style={{ minHeight: "100vh", paddingTop: 100, position: "relative", overflow: "hidden" }}>
+      <AmbientOrb x="50%" y="40%" size={600} />
+      <div style={{ maxWidth: 580, margin: "0 auto", padding: "40px 24px" }}>
+        <div style={{ textAlign: "center", marginBottom: 48, animation: "fadeUp 0.6s ease forwards" }}>
+          <h1 className="headline" style={{ fontSize: "clamp(32px,5vw,56px)", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 12 }}>
+            RefoxAI – Secure Checkout{" "}<span className="neon" style={{ color: C.primary, fontStyle: "italic" }}>({"\u20B9"}29 only)</span>
+          </h1>
+          <p style={{ color: C.mutedLight, fontSize: 16 }}>Your career deserves a premium start. Unlock your professional future in seconds.</p>
+        </div>
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+          <GlassCard style={{ padding: 32 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 28 }}>
+              <div style={{ display: "flex", gap: 16, alignItems: "center" }}>
+                <div style={{ width: 52, height: 52, borderRadius: 16, background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22 }}>{"\u{1F4C4}"}</div>
+                <div>
+                  <div className="headline" style={{ fontWeight: 800, fontSize: 16 }}>Your Google Template Resume</div>
+                  <div style={{ fontSize: 12, color: C.muted }}>Optimized for FAANG & Tech</div>
+                </div>
+              </div>
+              <div style={{ textAlign: "right" }}>
+                <div className="headline neon" style={{ fontSize: 28, fontWeight: 900, color: C.primary }}>95/100</div>
+                <div style={{ fontSize: 9, letterSpacing: "0.18em", color: C.muted, fontWeight: 700 }}>ATS SCORE</div>
+              </div>
+            </div>
+            <div style={{ borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 24, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <div>
+                <span className="headline" style={{ fontSize: 52, fontWeight: 900, letterSpacing: "-0.05em" }}>{"\u20B9"}29</span>
+                <div style={{ fontSize: 9, color: C.primary, fontWeight: 800, letterSpacing: "0.25em", textTransform: "uppercase", marginTop: 4 }}>ONE-TIME. NO SUBSCRIPTION.</div>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 8, background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: 100, padding: "10px 18px" }}>
+                <span style={{ color: C.primary, fontSize: 14 }}>{"\u2713"}</span>
+                <span style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase" }}>ATS Ready Export</span>
+              </div>
+            </div>
+          </GlassCard>
+          <GlassCard style={{ padding: 32, position: "relative" }}>
+            <div style={{ position: "absolute", top: -16, left: "50%", transform: "translateX(-50%)", background: "#1a1a1a", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 100, padding: "7px 20px", display: "flex", alignItems: "center", gap: 8, boxShadow: "0 4px 16px rgba(0,0,0,0.5)" }}>
+              <span style={{ color: "#ba84ff", fontSize: 13 }}>{"\u{1F512}"}</span>
+              <span style={{ fontSize: 9, fontWeight: 800, letterSpacing: "0.2em", color: C.muted, textTransform: "uppercase" }}>Secure SSL Connection</span>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: 16, paddingTop: 12 }}>
+              <button onClick={() => { setMethod("gpay"); handlePay(); }} style={{ width: "100%", height: 60, background: "#fff", borderRadius: 16, display: "flex", alignItems: "center", justifyContent: "center", gap: 12, border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700, transition: "all 0.2s" }} onMouseEnter={e => e.currentTarget.style.background = "#f0f0f0"} onMouseLeave={e => e.currentTarget.style.background = "#fff"}>
+                <span style={{ fontSize: 22 }}>{"\u{1F4B3}"}</span> Continue with Google Pay
+              </button>
+              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.05)" }} />
+                <span style={{ fontSize: 10, fontWeight: 800, color: C.muted, letterSpacing: "0.2em" }}>OR PAY WITH UPI / CARDS</span>
+                <div style={{ flex: 1, height: 1, background: "rgba(255,255,255,0.05)" }} />
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+                {[{ icon: "\u{1F3E6}", label: "UPI / Wallets", key: "upi" }, { icon: "\u{1F4B3}", label: "Credit / Debit", key: "card" }].map(m => (
+                  <div key={m.key} onClick={() => setMethod(m.key)} style={{ background: method === m.key ? "rgba(0,255,136,0.06)" : "rgba(255,255,255,0.02)", border: `1px solid ${method === m.key ? "rgba(0,255,136,0.4)" : "rgba(255,255,255,0.06)"}`, borderRadius: 16, padding: "20px 16px", textAlign: "center", cursor: "pointer", transition: "all 0.2s" }}>
+                    <div style={{ fontSize: 28, marginBottom: 8 }}>{m.icon}</div>
+                    <div style={{ fontSize: 11, fontWeight: 800, letterSpacing: "0.1em", textTransform: "uppercase", color: method === m.key ? C.primary : C.muted }}>{m.label}</div>
+                  </div>
+                ))}
+              </div>
+              <button onClick={handlePay} disabled={loading} style={{ width: "100%", height: 72, background: loading ? "#00cc6e" : `linear-gradient(135deg, ${C.primary}, #00d16e)`, border: "none", borderRadius: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 12, cursor: loading ? "default" : "pointer", fontSize: 22, fontWeight: 900, fontFamily: "'Plus Jakarta Sans', sans-serif", color: "#003820", letterSpacing: "-0.02em", animation: "glowPulse 3s alternate infinite", transition: "all 0.3s" }}>
+                {loading ? <><span style={{ animation: "spin 1s linear infinite", display: "inline-block" }}>{"\u26A1"}</span> Processing...</> : <>Pay Now {"\u2192"}</>}
+              </button>
+              <div style={{ textAlign: "center" }}>
+                <p style={{ fontSize: 12, color: C.muted, marginBottom: 16 }}>100% secure. Instant download after payment.</p>
+                <div style={{ display: "flex", justifyContent: "center", gap: 24, opacity: 0.25 }}>
+                  {["PayPal", "Mastercard", "Visa", "UPI"].map(b => (<span key={b} style={{ fontSize: 11, fontWeight: 700, color: "#fff", letterSpacing: "0.08em" }}>{b}</span>))}
+                </div>
+              </div>
+            </div>
+          </GlassCard>
+          <GlassCard style={{ padding: 24, display: "flex", gap: 20, alignItems: "center" }}>
+            <div style={{ width: 56, height: 56, borderRadius: "50%", background: "rgba(0,255,136,0.08)", border: "1px solid rgba(0,255,136,0.15)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0, fontSize: 24 }}>{"\u{1F6E1}\uFE0F"}</div>
+            <div>
+              <h4 className="headline" style={{ fontSize: 16, fontWeight: 800, marginBottom: 4 }}>Bank-Grade Encryption</h4>
+              <p style={{ fontSize: 13, color: C.mutedLight, lineHeight: 1.6 }}>We use 256-bit SSL encryption to ensure that your payment information is 100% safe and secure.</p>
+            </div>
+          </GlassCard>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SuccessPage({ setPage }) {
+  const confettiColors = ["#00FF88", "#a4ffb9", "#00fd87", "#ffffff", "#7ee6ff"];
+  const pieces = Array.from({ length: 12 }, (_, i) => ({ left: `${8 + i * 7.5}%`, delay: `${(i * 0.7) % 6}s`, color: confettiColors[i % confettiColors.length], size: 6 + (i % 3) * 3 }));
+  return (
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "100px 24px 48px", position: "relative", overflow: "hidden" }}>
+      {pieces.map((p, i) => (<div key={i} style={{ position: "fixed", top: 0, left: p.left, width: p.size, height: p.size, background: p.color, borderRadius: i % 2 === 0 ? "50%" : 2, animation: `confettiFall 8s linear ${p.delay} infinite`, pointerEvents: "none", zIndex: 200 }} />))}
+      <div style={{ maxWidth: 640, width: "100%", textAlign: "center" }}>
+        <GlassCard style={{ padding: "64px 48px", position: "relative" }}>
+          <div style={{ position: "relative", display: "inline-block", marginBottom: 40 }}>
+            <div style={{ position: "absolute", inset: -20, background: "rgba(0,255,136,0.15)", borderRadius: "50%", filter: "blur(40px)", animation: "glowPulse 2s alternate infinite" }} />
+            <div style={{ position: "relative", width: 100, height: 100, borderRadius: "50%", background: "#111", border: "2px solid rgba(0,255,136,0.4)", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 0 40px rgba(0,255,136,0.4)", animation: "checkPop 0.6s cubic-bezier(0.4,0,0.2,1) 0.2s both" }}>
+              <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M12 24l8 8 16-16" stroke={C.primary} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+            </div>
+          </div>
+          <h1 className="headline" style={{ fontSize: "clamp(36px,5vw,60px)", fontWeight: 900, letterSpacing: "-0.04em", lineHeight: 1.1, marginBottom: 16 }}>
+            {"\u{1F389}"} Resume Downloaded!<br /><span className="neon" style={{ color: C.primary, fontStyle: "italic" }}>You're FAANG-Ready.</span>
+          </h1>
+          <p style={{ fontSize: 17, color: C.mutedLight, lineHeight: 1.7, marginBottom: 40, maxWidth: 420, margin: "0 auto 40px" }}>Your ATS-optimized resume is ready.<br />Good luck with <strong style={{ color: "#fff" }}>Google & top MNCs!</strong></p>
+          <div style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 360, margin: "0 auto" }}>
+            <NeonButton onClick={() => setPage("templates")} size="xl" style={{ animation: "glowPulse 2s alternate infinite" }}><span>{"\uFF0B"}</span> Build New Resume</NeonButton>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              <NeonButton variant="ghost" size="md" style={{ flexDirection: "column", height: 64 }}><span>{"\u2B07"} Download Again</span><span style={{ fontSize: 9, color: C.primary, letterSpacing: "0.12em", fontWeight: 800 }}>{"\u20B9"}29 ONLY</span></NeonButton>
+              <NeonButton variant="outline" size="md">{"\u2191"} Share Success</NeonButton>
+            </div>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center", gap: 28, marginTop: 40, opacity: 0.35 }}>
+            {["\u{1F7E2} Google Ready", "\u{1F535} Meta Optimized", "\u{1F7E0} AWS Compatible"].map(b => (<span key={b} style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase" }}>{b}</span>))}
+          </div>
+        </GlassCard>
+      </div>
+    </div>
+  );
+}
+
+function Footer({ setPage }) {
+  return (
+    <footer style={{ borderTop: "1px solid rgba(255,255,255,0.04)", background: "rgba(0,0,0,0.6)", padding: "48px 32px" }}>
+      <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 24 }}>
+        <div>
+          <div className="headline neon" onClick={() => setPage("landing")} style={{ fontSize: 20, fontWeight: 900, color: C.primary, cursor: "pointer", marginBottom: 6 }}>RefoxAI</div>
+          <div style={{ fontSize: 10, color: C.muted, letterSpacing: "0.1em", fontWeight: 600 }}>{"\u00A9"} 2024 REFOXAI. BUILT WITH PRECISION IN INDIA.</div>
+        </div>
+        <div style={{ display: "flex", gap: 32 }}>
+          {["Templates", "Editor", "ATS Check", "Support"].map(l => (
+            <span key={l} onClick={() => setPage(l.toLowerCase().replace(" ", ""))} style={{ fontSize: 11, fontWeight: 700, color: C.muted, letterSpacing: "0.12em", textTransform: "uppercase", cursor: "pointer", transition: "color 0.2s" }} onMouseEnter={e => e.target.style.color = C.primary} onMouseLeave={e => e.target.style.color = C.muted}>{l}</span>
+          ))}
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+export { PaymentPage, SuccessPage, Footer };

@@ -1,0 +1,107 @@
+.resume-sheet {
+  background: white;
+  color: #000;
+  width: 210mm; /* A4 Width */
+  min-height: 297mm; /* A4 Height */
+  padding: 2.5rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  font-family: 'Inter', 'Outfit', sans-serif;
+  position: relative;
+  transform-origin: top center;
+  transform: scale(0.9);
+}
+
+.resume-header {
+  border-bottom: 2px solid #000;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.resume-header h1 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -1px;
+}
+
+.contact-info {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.resume-section {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #000;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.4rem;
+  margin-bottom: 1rem;
+  letter-spacing: 1px;
+}
+
+.summary-text {
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.experience-block, .education-block {
+  margin-bottom: 1.5rem;
+}
+
+.block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.3rem;
+}
+
+.role, .degree {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.period, .year {
+  font-size: 0.85rem;
+  color: #666;
+  font-style: italic;
+}
+
+.company, .school {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 0.8rem;
+}
+
+.bullet-points {
+  padding-left: 1.2rem;
+  margin-top: 0.5rem;
+}
+
+.bullet-points li {
+  font-size: 0.9rem;
+  color: #333;
+  line-height: 1.5;
+  margin-bottom: 0.4rem;
+}
+
+.skills-list {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  font-size: 5rem;
+  color: rgba(0, 0, 0, 0.03);
+  font-weight: 900;
+  pointer-events: none;
+}

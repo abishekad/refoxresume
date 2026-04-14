@@ -1,0 +1,38 @@
+.achieve-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.achieve-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.achieve-bullet-icon {
+  color: #00FF88;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.achieve-remove-btn {
+  background: rgba(255, 77, 77, 0.1);
+  border: 1px solid rgba(255, 77, 77, 0.2);
+  color: #ff4d4d;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.achieve-remove-btn:hover {
+  background: #ff4d4d;
+  color: #fff;
+}

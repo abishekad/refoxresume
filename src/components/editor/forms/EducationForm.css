@@ -1,0 +1,16 @@
+.edu-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.edu-grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.edu-mt-14 {
+  margin-top: 14px;
+}

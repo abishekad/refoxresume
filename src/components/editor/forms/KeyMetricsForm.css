@@ -1,0 +1,52 @@
+.metrics-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.metrics-tip-box {
+  background: rgba(0, 255, 136, 0.05);
+  border-left: 2px solid #00FF88;
+  border-radius: 0 8px 8px 0;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 14px;
+}
+
+.metrics-tip-bold {
+  color: #00FF88;
+}
+
+.metrics-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.metrics-bullet-icon {
+  color: #00FF88;
+  font-weight: 700;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.metrics-remove-btn {
+  background: rgba(255, 77, 77, 0.1);
+  border: 1px solid rgba(255, 77, 77, 0.2);
+  color: #ff4d4d;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.metrics-remove-btn:hover {
+  background: #ff4d4d;
+  color: #fff;
+}

@@ -1,0 +1,9 @@
+.skills-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.skills-mt-14 {
+  margin-top: 14px;
+}

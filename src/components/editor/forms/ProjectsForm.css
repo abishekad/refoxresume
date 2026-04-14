@@ -1,0 +1,54 @@
+.proj-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.proj-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.proj-mt-14 {
+  margin-top: 14px;
+}
+
+.proj-mt-18 {
+  margin-top: 18px;
+}
+
+.proj-bullet-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 12px;
+  align-items: flex-start;
+}
+
+.proj-bullet-icon {
+  color: #00FF88;
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.proj-add-bullet-btn {
+  font-size: 13px;
+  color: #00FF88;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: rgba(0, 255, 136, 0.05);
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.proj-add-bullet-btn:hover {
+  background: rgba(0, 255, 136, 0.1);
+}

@@ -1,0 +1,9 @@
+.cert-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cert-mt-14 {
+  margin-top: 14px;
+}

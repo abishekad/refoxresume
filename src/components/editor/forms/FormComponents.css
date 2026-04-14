@@ -1,0 +1,130 @@
+.fc-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.fc-section-header-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.fc-section-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(0, 255, 136, 0.2) 0%, rgba(0, 255, 136, 0.05) 100%);
+  border: 1px solid rgba(0, 255, 136, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.fc-headline {
+  font-weight: 800;
+  font-size: 18px;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.fc-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  background: rgba(0, 255, 136, 0.1);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  padding: 8px 16px;
+  border-radius: 50px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.fc-action-btn:hover {
+  background: rgba(0, 255, 136, 0.2);
+}
+
+.fc-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.fc-input {
+  width: 100%;
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  font-family: 'Inter', sans-serif;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.fc-input:focus {
+  border-color: rgba(0, 255, 136, 0.5);
+  background: #141414;
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.fc-textarea {
+  width: 100%;
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: #fff;
+  font-size: 14px;
+  resize: vertical;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.fc-textarea:focus {
+  border-color: rgba(0, 255, 136, 0.5);
+  background: #141414;
+  box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1), inset 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.fc-item-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.fc-remove-btn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  background: rgba(255, 77, 77, 0.1);
+  border: 1px solid rgba(255, 77, 77, 0.2);
+  color: #ff4d4d;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fc-remove-btn:hover {
+  background: #ff4d4d;
+  color: #fff;
+}
