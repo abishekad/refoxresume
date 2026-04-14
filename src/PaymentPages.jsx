@@ -30,21 +30,36 @@ function PaymentPage({ setPage, user }) {
     }
   }, []);
 
+  const EDGE_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/cashfree-payment`;
+
+  const callEdge = async (body, token) => {
+    const res = await fetch(EDGE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+        'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY
+      },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`Edge Function error (${res.status}): ${err}`);
+    }
+    return res.json();
+  };
+
   const verifyOrder = async (order_id) => {
     setLoading(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      const res = await supabase.functions.invoke('cashfree-payment', {
-        body: { action: 'verify_order', order_id },
-        headers: { Authorization: `Bearer ${session.access_token}` }
-      });
-      if (res.data && res.data.success) {
-         // Force token refresh to sync the latest user_metadata applied by the Edge Function
+      if (!session) throw new Error("Session expired. Please log in again.");
+      const data = await callEdge({ action: 'verify_order', order_id }, session.access_token);
+      if (data.success) {
          await supabase.auth.refreshSession();
-         // Small delay guarantees Root.jsx has re-rendered the isPaid state true
          setTimeout(() => setPage("download"), 600);
       } else {
-         alert("Payment not successful. Status: " + (res.data?.status || 'Unknown'));
+         alert("Payment not successful. Status: " + (data.status || 'Unknown'));
          setLoading(false);
       }
     } catch (e) {
@@ -57,28 +72,25 @@ function PaymentPage({ setPage, user }) {
     setLoading(true);
     try {
        const { data: { session } } = await supabase.auth.getSession();
-       if (!session) throw new Error("Not logged in");
+       if (!session) throw new Error("Not logged in. Please sign in first.");
 
        const cf = await loadCashfree();
        if (!cf) throw new Error("Cashfree SDK failed to load. Are you online?");
 
-       const res = await supabase.functions.invoke('cashfree-payment', {
-          body: { action: 'create_order', return_url: window.location.origin + '/payment' },
-          headers: { Authorization: `Bearer ${session.access_token}` }
-       });
+       const data = await callEdge(
+         { action: 'create_order', return_url: window.location.origin + '/payment' },
+         session.access_token
+       );
 
-       if (res.error) throw new Error(res.error.message || 'Error creating order');
-       const { payment_session_id, order_id } = res.data;
+       const { payment_session_id, order_id } = data;
+       if (!payment_session_id) throw new Error("No payment session ID returned from server.");
 
-       if (!payment_session_id) throw new Error("No payment session ID returned");
-
-       // Redirect to Cashfree via native SPA Modal (protects against http://localhost bugs)
        cf.checkout({
           paymentSessionId: payment_session_id,
-          redirectTarget: "_modal" 
+          redirectTarget: "_modal"
        }).then((result) => {
            if (result.error) {
-              setLoading(false); // User closed popup
+              setLoading(false);
            } else {
               setLoading(true);
               verifyOrder(order_id);
