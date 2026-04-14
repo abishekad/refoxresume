@@ -21,19 +21,25 @@ serve(async (req) => {
       const { action, customer_details, return_url, order_id: input_order_id } = await req.json()
 
       // Auth Check
-      const authHeader = req.headers.get('Authorization')!
+      const authHeader = req.headers.get('Authorization')
+      if (!authHeader) throw new Error('Missing Authorization header')
+      
+      const token = authHeader.replace('Bearer ', '')
       const supabaseClient = createClient(
          Deno.env.get('SUPABASE_URL') ?? '',
          Deno.env.get('SUPABASE_ANON_KEY') ?? '',
-         { global: { headers: { Authorization: authHeader } } }
+         { auth: { persistSession: false } }
       )
 
       const {
          data: { user },
          error: userError
-      } = await supabaseClient.auth.getUser()
+      } = await supabaseClient.auth.getUser(token)
 
-      if (userError || !user) throw new Error('Unauthenticated')
+      if (userError || !user) {
+          console.error('Auth Error:', userError);
+          throw new Error('Unauthenticated')
+      }
 
       if (action === 'create_order') {
          const order_id = `ORDER_${user.id.replace(/-/g, '').substring(0, 10)}_${Date.now()}`

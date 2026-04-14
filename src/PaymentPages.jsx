@@ -78,7 +78,7 @@ function PaymentPage({ setPage, user }) {
        if (!cf) throw new Error("Cashfree SDK failed to load. Are you online?");
 
        const data = await callEdge(
-         { action: 'create_order', return_url: window.location.origin + '/payment' },
+         { action: 'create_order' },
          session.access_token
        );
 
