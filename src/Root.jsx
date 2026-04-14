@@ -22,11 +22,7 @@ function AppContent() {
     const fetchUserAndRole = async (sessionUser) => {
        setUser(sessionUser);
        if (sessionUser) {
-          // Check users table or fallback to metadata
-          const { data } = await supabase.from('users').select('is_paid').eq('id', sessionUser.id).maybeSingle();
-          if (data && data.is_paid) {
-             setIsPaid(true);
-          } else if (sessionUser.user_metadata?.is_paid) {
+          if (sessionUser.user_metadata?.is_paid) {
              setIsPaid(true);
           } else {
              setIsPaid(false);
