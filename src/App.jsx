@@ -241,6 +241,91 @@ function AmbientOrb({ color = C.primary, size = 600, x = "50%", y = "50%", opaci
   );
 }
 
+function TestimonialSection() {
+  const reviews = [
+    { name: "Rahul S.", role: "Software Engineer", company: "Google", text: "The ATS keyword optimization is next level. It told me exactly what I was missing. Got my interview call in 3 days!" },
+    { name: "Priya M.", role: "Frontend Developer", company: "Amazon", text: "I was using standard templates for months with no luck. RefoxAI's format passed the ATS instantly." },
+    { name: "Vikram K.", role: "Data Scientist", company: "Meta", text: "Finally a tool built for tech. The AI summary generator actually sounds like a real engineer wrote it, not a robot." },
+  ];
+  return (
+    <section style={{ padding: "80px 32px", maxWidth: 1200, margin: "0 auto" }}>
+      <div style={{ textAlign: "center", marginBottom: 64 }}>
+        <h2 className="headline" style={{ fontSize: 44, fontWeight: 900, letterSpacing: "-0.03em" }}>Engineers love our <span className="neon" style={{ color: C.primary, fontStyle: "italic" }}>ATS Resumes</span></h2>
+      </div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 24 }}>
+        {reviews.map((r) => (
+          <GlassCard key={r.name} style={{ padding: 32 }}>
+            <div style={{ display: "flex", gap: 4, color: C.primary, marginBottom: 16 }}>
+              {"★★★★★"}
+            </div>
+            <p style={{ fontSize: 15, color: C.text, lineHeight: 1.7, marginBottom: 24 }}>"{r.text}"</p>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div style={{ width: 40, height: 40, borderRadius: "50%", background: "rgba(0,255,136,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, color: C.primary }}>
+                {r.name.charAt(0)}
+              </div>
+              <div>
+                <div style={{ fontSize: 14, fontWeight: 700 }}>{r.name}</div>
+                <div style={{ fontSize: 12, color: C.mutedLight }}>{r.role} at <span style={{ color: "#fff", fontWeight: 600 }}>{r.company}</span></div>
+              </div>
+            </div>
+          </GlassCard>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function SuccessStoriesSection() {
+  const stories = [
+    {
+      name: "Aditya Verma", role: "SDE II", target: "Amazon",
+      time: "2 days ago",
+      text: "I'm thrilled to announce that I will be joining Amazon as a Software Development Engineer II! Huge thanks to RefoxAI for their incredible ATS resume builder that helped my profile get shortlisted almost immediately.",
+      likes: "1,204", comments: "142"
+    },
+    {
+      name: "Sneha Rao", role: "Product Manager", target: "Microsoft",
+      time: "1 week ago",
+      text: "After months of applying into the void, I finally cracked Microsoft! The real game-changer was switching my resume to a FAANG-ready format. RefoxAI's keyword optimization is magic.",
+      likes: "892", comments: "76"
+    }
+  ];
+  return (
+    <section style={{ padding: "80px 32px", maxWidth: 1000, margin: "0 auto" }}>
+      <div style={{ textAlign: "center", marginBottom: 64 }}>
+        <h2 className="headline" style={{ fontSize: 44, fontWeight: 900, letterSpacing: "-0.03em" }}>Real <span className="neon" style={{ color: C.primary, fontStyle: "italic" }}>Success Stories</span></h2>
+        <p style={{ fontSize: 16, color: C.mutedLight, marginTop: 16 }}>Join the growing network of Indian engineers securing top MNC offers.</p>
+      </div>
+      <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
+        {stories.map(s => (
+          <GlassCard key={s.name} style={{ padding: "24px 32px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+              <div style={{ width: 48, height: 48, borderRadius: "50%", background: "linear-gradient(135deg, #222, #111)", border: "1px solid rgba(255,255,255,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 20 }}>
+                💼
+              </div>
+              <div>
+                <div style={{ fontSize: 15, fontWeight: 700 }}>{s.name}</div>
+                <div style={{ fontSize: 12, color: C.mutedLight }}>{s.role} • {s.time}</div>
+              </div>
+            </div>
+            <p style={{ fontSize: 14, color: "#eee", lineHeight: 1.6, marginBottom: 16 }}>
+              {s.text}
+            </p>
+            <div style={{ display: "flex", alignItems: "center", gap: 16, borderTop: "1px solid rgba(255,255,255,0.05)", paddingTop: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.mutedLight }}>
+                <span style={{ color: C.primary }}>👍</span> {s.likes}
+              </div>
+              <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: C.mutedLight }}>
+                💬 {s.comments} Comments
+              </div>
+            </div>
+          </GlassCard>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function LandingPage({ setPage }) {
   const features = [
     { icon: "\u{1F3AF}", title: "5 Resumes Got Into Google", desc: "We reverse-engineered the formatting and keyword density of successful profiles from Google, Meta, and Amazon." },
@@ -273,13 +358,11 @@ function LandingPage({ setPage }) {
               <span style={{ fontSize: 11, fontWeight: 700, color: C.primary, letterSpacing: "0.12em", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>#1 ATS RESUME BUILDER FOR FAANG</span>
             </div>
             <h1 className="headline" style={{ fontSize: "clamp(44px, 5vw, 72px)", fontWeight: 900, lineHeight: 1.05, letterSpacing: "-0.04em", marginBottom: 24 }}>
-              Build a{" "}
-              <span className="neon" style={{ color: C.primary, fontStyle: "italic", background: "linear-gradient(135deg, #00FF88, #00D16E, #00FF88)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "shimmer 3s linear infinite" }}>Google-selected</span>{" "}
-              resume in 10 minutes.
+              Build an <span className="neon" style={{ color: C.primary, fontStyle: "italic", background: "linear-gradient(135deg, #00FF88, #00D16E, #00FF88)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", animation: "shimmer 3s linear infinite" }}>AI-Powered</span> ATS Resume in 10 minutes.
             </h1>
-            <p style={{ fontSize: 17, color: C.mutedLight, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}>5 real resumes that got offers at Google and other top MNCs — now turned into templates for you.</p>
+            <p style={{ fontSize: 17, color: C.mutedLight, lineHeight: 1.7, marginBottom: 32, maxWidth: 480 }}>5 real resumes that got offers at Google and top MNCs — transformed by AI into your perfect template.</p>
             <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 40 }}>
-              {["ATS-optimized for top HR portals.", "FAANG-ready formatting.", "\u20B929 single download fee."].map(t => (
+              {["Smart AI keyword optimization.", "FAANG-ready ATS formatting.", "\u20B929 single download fee."].map(t => (
                 <div key={t} style={{ display: "flex", alignItems: "center", gap: 10 }}>
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="rgba(0,255,136,0.15)" /><path d="M5 8l2 2 4-4" stroke={C.primary} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>
                   <span style={{ fontSize: 14, color: C.mutedLight }}>{t}</span>
@@ -369,6 +452,10 @@ function LandingPage({ setPage }) {
           ))}
         </div>
       </section>
+
+      <TestimonialSection />
+      
+      <SuccessStoriesSection />
 
       <section style={{ padding: "80px 32px", maxWidth: 800, margin: "0 auto", textAlign: "center" }}>
         <GlassCard style={{ padding: "64px 48px" }}>

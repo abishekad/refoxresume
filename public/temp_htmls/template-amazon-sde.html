@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>JOHN DOE</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #f2f4f6;
+      font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.5;
+      color: #000000;
+      padding: 2rem 1rem;
+    }
+    .ats-resume {
+      max-width: 100%;
+      margin: 0 auto;
+      background: white;
+      border: none;
+      padding: 1.5rem 2rem;
+      border-radius: 0px;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      color: #111;
+      margin-bottom: 0.1rem;
+      text-transform: uppercase;
+      text-align: center;
+    }
+    .subhead {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #2c3e50;
+      margin-bottom: 0.4rem;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 0.3rem;
+      text-align: center;
+    }
+    .contact-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin: 0.4rem 0 0.8rem 0;
+      font-size: 0.85rem;
+      color: #1e2f3e;
+      border-bottom: 1px solid #e9ecef;
+      padding-bottom: 0.6rem;
+    }
+    .contact-bar a {
+      color: #0a5b83;
+      text-decoration: none;
+      border-bottom: none;
+    }
+    .contact-bar span, .contact-bar a {
+      font-weight: 400;
+    }
+    .section { margin: 1.5rem 0 1.8rem 0; }
+    .section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #2c3e50;
+      padding-bottom: 0.3rem;
+      margin-bottom: 1rem;
+      color: #000;
+    }
+    .summary-text {
+      font-size: 0.94rem;
+      background: transparent;
+      padding: 0;
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .two-col-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      margin: 0.5rem 0 0.2rem;
+    }
+    .col-left {
+      flex: 1.2;
+      min-width: 220px;
+    }
+    .col-right {
+      flex: 2.2;
+      min-width: 260px;
+    }
+    .skills-block { margin-bottom: 1.2rem; }
+    .skills-cat {
+      font-weight: 700;
+      font-size: 0.85rem;
+      margin: 0.75rem 0 0.3rem 0;
+      color: #000;
+      border-left: 2px solid #aaa;
+      padding-left: 8px;
+    }
+    .skills-items {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      margin-bottom: 0.5rem;
+      color: #1f2f3a;
+      display: block;
+    }
+    .plain-list {
+      list-style: none;
+      margin-left: 0;
+      padding-left: 0;
+    }
+    .plain-list li {
+      margin-bottom: 0.3rem;
+      position: relative;
+      padding-left: 1rem;
+      font-size: 0.89rem;
+    }
+    .plain-list li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #2c3e50;
+      font-weight: bold;
+    }
+    .exp-entry { margin-bottom: 1.6rem; }
+    .exp-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.3rem;
+    }
+    .exp-role {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #000;
+    }
+    .exp-company {
+      font-weight: 600;
+      color: #1f5e8c;
+    }
+    .exp-date {
+      font-size: 0.8rem;
+      font-weight: normal;
+      color: #4b5e6c;
+    }
+    .exp-list {
+      margin-top: 0.5rem;
+      padding-left: 1.2rem;
+    }
+    .exp-list li {
+      margin-bottom: 0.55rem;
+      font-size: 0.89rem;
+      line-height: 1.45;
+    }
+    .metric {
+      font-weight: 700;
+      color: #000;
+    }
+    .edu-details { margin-top: 0.2rem; margin-bottom: 1.2rem; }
+    .edu-title {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .edu-meta {
+      font-size: 0.85rem;
+      color: #2c3e50;
+      margin-top: 0.2rem;
+    }
+    hr {
+      margin: 1rem 0;
+      border: 0;
+      border-top: 1px solid #e2e8f0;
+    }
+    @media (max-width: 700px) {
+      .ats-resume { padding: 1.2rem; }
+      .exp-header { flex-direction: column; gap: 0.2rem; }
+    }
+    a { word-break: break-word; }
+    .no-badge, .no-icon { all: unset; }
+    
+    @media print {
+      body { background: #fff; padding: 0; }
+      .ats-resume { box-shadow: none; border: none; padding: 1.5rem 2rem; max-width: 100%; }
+    }
+  </style>
+
+      <style>
+        body * {
+          -webkit-text-stroke: 0.3px rgba(0,0,0,0.6) !important;
+          font-weight: 500 !important;
+        }
+        body h1, body h2, body h3, body h4, body .name, body .section-title {
+          -webkit-text-stroke: 0.8px rgba(0,0,0,0.8) !important;
+          font-weight: 900 !important;
+        }
+      </style>
+    </head>
+<body>
+<div class="ats-resume">
+  <h1>JOHN DOE</h1>
+  
+  <div class="subhead">Full Stack Developer & Software Engineer | Full Stack Developer | Software Engineer</div>
+
+  <div class="contact-bar">
+    <span>📍 New York, USA</span>
+    <span>📞 +1 234 567 8900</span>
+    <span>✉️ <a href="mailto:john@example.com">john@example.com</a></span>
+    <span>GitHub: <a href="https://github.com/johndoe" target="_blank">github.com/johndoe</a></span>
+    <span>LinkedIn: <a href="https://linkedin.com/in/johndoe" target="_blank">linkedin.com/in/johndoe</a></span>
+    <span>Portfolio: <a href="https://johndoe.dev" target="_blank">johndoe.dev</a></span>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">Summary</div>
+    <div class="summary-text">Passionate engineer with experience in building scalable web applications. Recognized for improving system efficiency by 40% using modern stack solutions.</div>
+  </div>
+
+  <div class="two-col-grid">
+    <div class="col-left">
+      
+    </div>
+
+    <div class="col-right">
+      
+      <div class="section" style="margin-top: 0;">
+        <div class="section-title">Experience</div>
+        
+              <div class="exp-entry">
+                <div class="exp-header">
+                  <div>
+                    <span class="exp-role">Senior Software Engineer</span>
+                    <span class="exp-company"> | TechNova Solutions</span>
+                  </div>
+                  <div class="exp-date">Jan 2021 – Present (3 Yrs)</div>
+                </div>
+                <ul class="exp-list"><li>Led the transition to a microservices architecture improving uptime to 99.99%.</li>
+<li>Mentored a team of 5 junior developers on React and Node.js best practices.</li>
+<li>Reduced application load time by 35% through image optimization.</li></ul>
+              </div>
+
+              <div class="exp-entry">
+                <div class="exp-header">
+                  <div>
+                    <span class="exp-role">Software Developer</span>
+                    <span class="exp-company"> | Innovate Inc.</span>
+                  </div>
+                  <div class="exp-date">Jun 2018 – Dec 2020</div>
+                </div>
+                <ul class="exp-list"><li>Developed core features for the product dashboard serving 10k users.</li>
+<li>Integrated payment gateway processing $1M+ daily transactions.</li>
+<li>Wrote 100+ comprehensive automation unit tests using Jest.</li></ul>
+              </div>
+      </div>
+
+      <div class="section" >
+        <div class="section-title">Key Projects</div>
+        
+              <div class="exp-entry">
+                <div class="exp-header">
+                  <div>
+                    <span class="exp-role">E-Commerce Platform</span>
+                    
+                  </div>
+                  <div class="exp-date"> </div>
+                </div>
+                <ul class="exp-list"></ul>
+              </div>
+
+              <div class="exp-entry">
+                <div class="exp-header">
+                  <div>
+                    <span class="exp-role">AI Customer Support Chatbot</span>
+                    
+                  </div>
+                  <div class="exp-date"> </div>
+                </div>
+                <ul class="exp-list"></ul>
+              </div>
+
+              <div class="exp-entry">
+                <div class="exp-header">
+                  <div>
+                    <span class="exp-role">FinTech Dashboard Analytics</span>
+                    
+                  </div>
+                  <div class="exp-date"> </div>
+                </div>
+                <ul class="exp-list"></ul>
+              </div>
+      </div>
+
+      <div class="section" >
+        <div class="section-title">Education</div>
+        
+              <div class="edu-details">
+                <div class="edu-title">Bachelor of Engineering (B.E) in Computer Science Engineering</div>
+                <div class="edu-meta">St. Joseph's College of Engineering, Sriperumbudur | CGPA: 8.4/10</div>
+                <div class="edu-meta">Graduation: 2025 · Relevant coursework: Data Structures, Cloud Computing, AI Fundamentals, Web Technologies</div>
+              </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+  <div style="font-size: 0.75rem; color: #4b5563; text-align: left; margin-top: 0.8rem;">
+    John Doe | Software Engineer Resume | 2024 | 8+ Years Experience
+  </div>
+</div>
+</body>
+</html>

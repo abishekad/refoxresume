@@ -8,7 +8,7 @@ function TemplateThumbnail({ template }) {
   if (template.preview) {
     return (
       <div style={{ width: "100%", aspectRatio: "1 / 1.4", overflow: "hidden", borderRadius: 6, border: "1px solid rgba(255,255,255,0.1)", background: "#fff", position: "relative" }}>
-        <img src={template.preview} alt={`${template.name} preview`} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center" }} />
+        <img src={template.preview} alt={`${template.name} preview`} style={{ width: "100%", height: "100%", objectFit: "cover", objectPosition: "top center", imageRendering: "-webkit-optimize-contrast" }} />
       </div>
     );
   }
@@ -21,7 +21,6 @@ function TemplateThumbnail({ template }) {
         ...defaultData.personal,
         fullName: "JOHN DOE",
         professionalTitle: "Full Stack Developer & Software Engineer",
-        targetRole: defaultData.personal.targetRole || "Software Engineer",
         email: "john@example.com",
         phone: "+1 234 567 8900",
         location: "New York, USA",

@@ -14,7 +14,7 @@ const resumeTemplates = [
     color: '#00E396',
     badge: 'primary',
     score: 97,
-    preview: '/template-google-swe.png',
+    preview: '/template-google-swe.jpg',
     sections: [
       { id: 'personal', label: 'Personal Info', type: 'personal', fields: ['fullName','professionalTitle','phone','email','github','linkedin'] },
       { id: 'summary', label: 'Summary', type: 'textarea' },
@@ -58,7 +58,7 @@ const resumeTemplates = [
     color: '#0668E1',
     sub: 'Clean Typography',
     score: 99,
-    preview: '/template-meta-pm.png',
+    preview: '/template-meta-pm.jpg',
     sections: [
       { id: 'personal', label: 'Personal Info', type: 'personal' },
       { id: 'summary', label: 'Summary', type: 'textarea' },
@@ -80,7 +80,7 @@ const resumeTemplates = [
     color: '#00A4EF',
     sub: 'Clean Structure',
     score: 96,
-    preview: '/template-microsoft-azure.png',
+    preview: '/template-microsoft-azure.jpg',
     sections: [
       { id: 'personal', label: 'Personal Info', type: 'personal' },
       { id: 'summary', label: 'Summary', type: 'textarea' },
@@ -102,7 +102,7 @@ const resumeTemplates = [
     color: '#2c5f2e',
     sub: 'Elegant Styling',
     score: 95,
-    preview: '/template-apple-hardware.png',
+    preview: '/template-apple-hardware.jpg',
     sections: [
       { id: 'personal', label: 'Personal Info', type: 'personal' },
       { id: 'summary', label: 'Summary', type: 'textarea' },

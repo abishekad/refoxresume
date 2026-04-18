@@ -3,8 +3,6 @@ export const createDefaultFormData = () => ({
     fullName: 'John Doe',
     subhead: 'Full Stack Developer',
     currentRole: 'Software Engineer',
-    targetRole: 'Senior Full Stack Developer',
-    openTo: 'Full-time',
     professionalTitle: 'Full Stack Developer',
     location: 'San Francisco, CA',
     openToRemote: true,
@@ -101,22 +99,18 @@ export const createDefaultFormData = () => ({
 
 export const createGoogleFormData = () => ({
   ...createDefaultFormData(),
-  personal: { ...createDefaultFormData().personal, targetRole: 'Google Software Engineer' },
 });
 
 export const createAmazonFormData = () => ({
   ...createDefaultFormData(),
-  personal: { ...createDefaultFormData().personal, targetRole: 'Amazon SDE' },
 });
 
 export const createMetaFormData = () => ({
   ...createDefaultFormData(),
-  personal: { ...createDefaultFormData().personal, targetRole: 'Meta Software Engineer' },
 });
 
 export const createAzureFormData = () => {
   const fd = createDefaultFormData();
-  fd.personal.targetRole = 'Microsoft Azure Engineer';
   const cloudInd = fd.skills.findIndex(s => s.category.includes('Cloud'));
   if (cloudInd !== -1) fd.skills[cloudInd].items = 'Azure, CosmosDB';
   return fd;
@@ -124,7 +118,6 @@ export const createAzureFormData = () => {
 
 export const createAppleFormData = () => {
   const fd = createDefaultFormData();
-  fd.personal.targetRole = 'Apple Hardware Engineer';
   fd.skills.push({ id: crypto.randomUUID(), category: 'Hardware', items: 'Verilog, VHDL, PCB Design' });
   return fd;
 };

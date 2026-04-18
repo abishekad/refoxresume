@@ -10,7 +10,7 @@ export default function EducationForm({ data, update, label, onRename, onDelete,
     <div className="edu-container">
       <SectionHeader icon="🎓" title={label || "Education"} action="ADD DEGREE" onAction={addEduEntry} onRename={onRename} onDelete={onDelete} id={id} />
       {data.map((edu, idx) => (
-        <ItemCard key={edu.id} onRemove={data.length > 1 ? () => removeEduEntry(idx) : undefined}>
+        <ItemCard key={edu.id} title={edu.degree || "Degree"} subtitle={edu.school || ""} onRemove={data.length > 1 ? () => removeEduEntry(idx) : undefined}>
           <Label>Degree Title</Label>
           <Input value={edu.degree} onChange={(v) => updateEduEntry(idx, "degree", v)} placeholder="e.g. Master of Engineering" />
           <div className="edu-mt-14"><Label>School / University</Label>

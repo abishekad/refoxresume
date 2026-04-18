@@ -13,7 +13,7 @@ export default function ProjectsForm({ data, update, label, onRename, onDelete, 
     <div className="proj-container">
       <SectionHeader icon="🚀" title={label || "Projects"} action="ADD PROJECT" onAction={addProject} onRename={onRename} onDelete={onDelete} id={id} />
       {data.map((proj, idx) => (
-        <ItemCard key={proj.id} onRemove={data.length > 1 ? () => removeProject(idx) : undefined}>
+        <ItemCard key={proj.id} title={proj.title || "Project Name"} subtitle={proj.subtitle || ""} onRemove={data.length > 1 ? () => removeProject(idx) : undefined}>
           <Label>Project Name</Label>
           <Input value={proj.title} onChange={(v) => updateProject(idx, "title", v)} placeholder="e.g. Smart Mobility Platform" />
           <div className="proj-mt-14"><Label>Subtitle / Type</Label>

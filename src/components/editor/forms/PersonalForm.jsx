@@ -15,10 +15,6 @@ export default function PersonalForm({ data, update, label, onRename, onDelete, 
       <Input value={data.currentRole} onChange={(v) => setField("currentRole", v)} placeholder="E.g. SOFTWARE ENGINEER @ GOOGLE" />
       <div className="pf-grid-2">
         <div><Label>Professional Title</Label><Input value={data.professionalTitle} onChange={v => setField("professionalTitle", v)} placeholder="E.g. Full Stack Developer" /></div>
-        <div><Label>Target Role</Label><Input value={data.targetRole} onChange={v => setField("targetRole", v)} placeholder="E.g. Senior SDE" /></div>
-      </div>
-      <div className="pf-grid-2">
-        <div><Label>Open To</Label><Input value={data.openTo} onChange={v => setField("openTo", v)} placeholder="Full-time / Contract" /></div>
         <div><Label>Location</Label><Input value={data.location} onChange={v => setField("location", v)} placeholder="E.g. Bengaluru, India" /></div>
       </div>
       <div className="pf-grid-2">

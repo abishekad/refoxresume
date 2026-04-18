@@ -112,21 +112,22 @@ export default function renderGoogleSWE(data) {
     }
 
     .resume {
-      max-width: 1000px;
+      max-width: 100%;
       margin: 0 auto;
       background: white;
-      border: 1px solid #d0d7de;
-      padding: 2rem 2.2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+      border: none;
+      padding: 1.5rem 2rem;
+      box-shadow: none;
     }
 
     .name {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 700;
       letter-spacing: -0.3px;
       color: #0a2942;
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.1rem;
       text-transform: uppercase;
+      text-align: center;
     }
 
     .target-role {
@@ -144,24 +145,27 @@ export default function renderGoogleSWE(data) {
       font-size: 1rem;
       font-weight: 500;
       color: #2c6e9e;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.2rem;
+      text-align: center;
     }
 
     .location-line {
       font-size: 0.85rem;
       color: #7b2c45;
-      margin-bottom: 0.8rem;
+      margin-bottom: 0.4rem;
+      text-align: center;
     }
 
     .contact-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.2rem;
-      margin-bottom: 1.2rem;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
       font-size: 0.85rem;
       color: #2c3e4e;
       background: #f8fafc;
-      padding: 0.7rem 1rem;
+      padding: 0.5rem 1rem;
       border-radius: 6px;
     }
     .contact-row span, .contact-row a {
@@ -307,9 +311,6 @@ export default function renderGoogleSWE(data) {
 <body>
 <div class="resume">
   ${personal.fullName ? `<div class="name">${personal.fullName}</div>` : ''}
-  
-  ${personal.targetRole || personal.openTo ? `<div class="target-role">🎯 ${personal.targetRole ? `Target Role: ${personal.targetRole}` : ''} ${personal.openTo ? `| Open to ${personal.openTo}` : ''}</div>` : ''}
-  
   ${personal.professionalTitle || personal.subhead || personal.currentRole ? `<div class="title">${[personal.professionalTitle, personal.subhead, personal.currentRole].filter(Boolean).join(' | ')}</div>` : ''}
   
   ${personal.location ? `<div class="location-line">📍 ${personal.location} ${personal.openToRemote ? '(Open to remote / relocation)' : ''}</div>` : ''}

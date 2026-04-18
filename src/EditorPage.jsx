@@ -5,6 +5,9 @@ import LivePreview from "./components/editor/LivePreview";
 import FormBuilder from "./components/editor/FormBuilder";
 import { createDefaultFormData } from "./data/resumeSchema";
 import { supabase } from "./services/supabase";
+import { useUndoRedo } from "./hooks/useUndoRedo";
+import ATSScoreBar from "./components/editor/ATSScoreBar";
+import { Undo2, Redo2 } from "lucide-react";
 
 // Fallback configuration if template strictly hasn't loaded yet
 const DEFAULT_SECTIONS = [
@@ -20,7 +23,7 @@ export default function EditorPage({ setPage, selectedTemplate, user, isPaid }) 
   // We will derive sections strictly from the user's saved layout state now.
   // We initialize it into form state, rather than calculating it on every render.
 
-  const [form, setForm] = useState(() => {
+  const { state: form, setState: setForm, undo, redo, canUndo, canRedo } = useUndoRedo(() => {
     // Try localStorage first for instant visual render
     const saved = localStorage.getItem('refox_resume_draft_' + (selectedTemplate?.id || 'default'));
     if (saved) {
@@ -158,12 +161,17 @@ export default function EditorPage({ setPage, selectedTemplate, user, isPaid }) 
           </h2>
           <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
             <div style={{ width: 6, height: 6, borderRadius: "50%", background: C.primary, boxShadow: `0 0 8px ${C.primary}` }} />
-            <span style={{ fontSize: 10, fontWeight: 700, color: C.primary, letterSpacing: "0.12em" }}>ATS-OPTIMIZED LIVE PREVIEW</span>
+            <span style={{ fontSize: 10, fontWeight: 700, color: C.primary, letterSpacing: "0.12em", marginRight: 16 }}>ATS-OPTIMIZED LIVE PREVIEW</span>
+            <ATSScoreBar data={form} />
           </div>
         </div>
-        <div style={{ display: "flex", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          <div style={{ display: "flex", gap: 8, marginRight: 8, borderRight: "1px solid rgba(255,255,255,0.1)", paddingRight: 16 }}>
+             <button onClick={undo} disabled={!canUndo} style={{ background: 'transparent', border: 'none', color: canUndo ? '#fff' : 'rgba(255,255,255,0.2)', cursor: canUndo ? 'pointer' : 'default', padding: '6px' }} title="Undo"><Undo2 size={18} /></button>
+             <button onClick={redo} disabled={!canRedo} style={{ background: 'transparent', border: 'none', color: canRedo ? '#fff' : 'rgba(255,255,255,0.2)', cursor: canRedo ? 'pointer' : 'default', padding: '6px' }} title="Redo"><Redo2 size={18} /></button>
+          </div>
           <NeonButton variant="ghost" size="sm" onClick={() => setPage("preview")}>Preview</NeonButton>
-          <NeonButton onClick={() => setPage("payment")} size="sm">Download Resume (₹29)</NeonButton>
+          <NeonButton onClick={() => setPage("download")} size="sm">Download Resume (Test)</NeonButton>
         </div>
       </div>
 
@@ -175,7 +183,8 @@ export default function EditorPage({ setPage, selectedTemplate, user, isPaid }) 
           <SidebarNav 
              sections={form.layout || []} 
              activeTab={activeTab} 
-             onChange={setActiveTab} 
+             onChange={setActiveTab}
+             onReorder={(newLayout) => setForm(f => ({ ...f, layout: newLayout }))} 
              onRename={renameSection} 
              onDelete={deleteSection} 
              onAdd={addSection} 

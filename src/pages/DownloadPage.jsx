@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, Navigate } from "react-router-dom";
-import { NeonButton, GlassCard, C } from "../App";
+import { NeonButton, GlassCard, C, AmbientOrb } from "../App";
 import { supabase } from "../services/supabase";
 import html2pdf from "html2pdf.js";
 import { Document, Packer, Paragraph, TextRun, HeadingLevel } from "docx";
@@ -40,9 +40,9 @@ export default function DownloadPage({ user, isPaid, setPage, selectedTemplate }
   }
 
   // Guard: if unpaid, redirect to payment
-  if (!isPaid) {
-    return <Navigate to="/payment" replace />;
-  }
+  // if (!isPaid) {
+  //   return <Navigate to="/payment" replace />;
+  // }
 
   if (!selectedTemplate || !data) {
     return <div style={{ color: '#fff', padding: 50, textAlign: 'center' }}>Loading... please wait.</div>;
@@ -193,10 +193,12 @@ export default function DownloadPage({ user, isPaid, setPage, selectedTemplate }
   };
 
   return (
-    <div style={{ minHeight: "100vh", paddingTop: 100, display: "flex", flexDirection: "column", alignItems: "center", position: "relative", overflow: "hidden" }}>
+    <div style={{ minHeight: "100vh", paddingTop: 100, display: "flex", flexDirection: "column", alignItems: "center", position: "relative", overflow: "hidden", background: C.bg }}>
+      <AmbientOrb x="20%" y="30%" size={700} opacity={0.05} />
+      <AmbientOrb x="80%" y="70%" size={500} color="#7ee6ff" opacity={0.04} />
       <div style={{ maxWidth: 640, width: "100%", margin: "0 auto", padding: "40px 24px", position: "relative", zIndex: 10 }}>
         <div style={{ textAlign: "center", marginBottom: 40, animation: "fadeUp 0.6s ease forwards" }}>
-          <h1 className="headline" style={{ fontSize: "clamp(32px,5vw,56px)", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 12 }}>
+          <h1 className="headline" style={{ fontSize: "clamp(32px,5vw,56px)", fontWeight: 900, letterSpacing: "-0.04em", marginBottom: 12, color: "#fff" }}>
             Download <span className="neon" style={{ color: C.primary, fontStyle: "italic" }}>Unlocked</span>
           </h1>
           <p style={{ color: C.mutedLight, fontSize: 16 }}>Your paid access is active. Download your resume in high quality without watermarks.</p>
@@ -205,7 +207,7 @@ export default function DownloadPage({ user, isPaid, setPage, selectedTemplate }
         <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
           <GlassCard style={{ padding: 40, textAlign: 'center' }}>
             <div style={{ fontSize: 40, marginBottom: 20 }}>📄</div>
-            <h3 className="headline" style={{ fontSize: 24, fontWeight: 800, marginBottom: 12 }}>Print-Ready ATS PDF</h3>
+            <h3 className="headline" style={{ fontSize: 24, fontWeight: 800, marginBottom: 12, color: "#fff" }}>Print-Ready ATS PDF</h3>
             <p style={{ color: C.mutedLight, fontSize: 14, marginBottom: 24 }}>Pixel-perfect, uneditable format guaranteed to pass through ATS parsers cleanly.</p>
             <NeonButton size="lg" onClick={handleDownloadPDF} disabled={loadingType === 'pdf'} style={{ width: '100%' }}>
                {loadingType === 'pdf' ? "Generating PDF..." : "Download as PDF"}
@@ -214,7 +216,7 @@ export default function DownloadPage({ user, isPaid, setPage, selectedTemplate }
 
           <GlassCard style={{ padding: 40, textAlign: 'center' }}>
             <div style={{ fontSize: 40, marginBottom: 20 }}>📝</div>
-            <h3 className="headline" style={{ fontSize: 24, fontWeight: 800, marginBottom: 12 }}>Editable MS Word (.docx)</h3>
+            <h3 className="headline" style={{ fontSize: 24, fontWeight: 800, marginBottom: 12, color: "#fff" }}>Editable MS Word (.docx)</h3>
             <p style={{ color: C.mutedLight, fontSize: 14, marginBottom: 24 }}>Standard format containing all your content, fully editable in Microsoft Word or Google Docs.</p>
             <NeonButton size="lg" variant="outline" onClick={handleDownloadWord} disabled={loadingType === 'docx'} style={{ width: '100%' }}>
                {loadingType === 'docx' ? "Generating Word..." : "Download as Word (.docx)"}

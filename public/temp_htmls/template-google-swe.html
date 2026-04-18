@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>JOHN DOE</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #eef2f5;
+      font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.5;
+      color: #1a2c3e;
+      padding: 2rem 1rem;
+    }
+
+    .resume {
+      max-width: 100%;
+      margin: 0 auto;
+      background: white;
+      border: none;
+      padding: 1.5rem 2rem;
+      box-shadow: none;
+    }
+
+    .name {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      color: #0a2942;
+      margin-bottom: 0.1rem;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .target-role {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #1e6b3e;
+      background: #e6f4ea;
+      display: inline-block;
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      margin: 0.3rem 0 0.6rem 0;
+    }
+
+    .title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #2c6e9e;
+      margin-bottom: 0.2rem;
+      text-align: center;
+    }
+
+    .location-line {
+      font-size: 0.85rem;
+      color: #7b2c45;
+      margin-bottom: 0.4rem;
+      text-align: center;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      font-size: 0.85rem;
+      color: #2c3e4e;
+      background: #f8fafc;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+    }
+    .contact-row span, .contact-row a {
+      color: #1e5a7d;
+      text-decoration: none;
+    }
+    .contact-row a:hover {
+      text-decoration: underline;
+    }
+
+    .section {
+      margin: 1.4rem 0 1.6rem 0;
+    }
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 2px solid #cbd5e1;
+      padding-bottom: 0.3rem;
+      margin-bottom: 0.9rem;
+      color: #0f3b54;
+    }
+
+    .summary-text {
+      font-size: 0.92rem;
+      line-height: 1.55;
+      background: #fefefe;
+      padding: 0.2rem 0;
+    }
+
+    .skills-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .skill-line {
+      font-size: 0.9rem;
+    }
+    .skill-cat {
+      font-weight: 700;
+      color: #0f3b54;
+      display: inline-block;
+      min-width: 150px;
+    }
+    .skill-items {
+      display: inline;
+    }
+
+    .exp-item {
+      margin-bottom: 1.6rem;
+    }
+    .exp-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.4rem;
+    }
+    .exp-role {
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0c2e44;
+    }
+    .exp-date {
+      font-size: 0.78rem;
+      font-weight: normal;
+      color: #5c6f82;
+      background: #f0f4f9;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+    }
+    .exp-desc {
+      margin-top: 0.5rem;
+      padding-left: 1rem;
+    }
+    .exp-desc ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .exp-desc li {
+      font-size: 0.88rem;
+      margin-bottom: 0.45rem;
+      position: relative;
+      padding-left: 1.2rem;
+      line-height: 1.45;
+    }
+    .exp-desc li::before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #2c7cb6;
+      font-weight: bold;
+    }
+
+    .projects-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    .projects-list li {
+      font-size: 0.88rem;
+      margin-bottom: 0.5rem;
+      position: relative;
+      padding-left: 1.2rem;
+    }
+    .projects-list li::before {
+      content: "▹";
+      position: absolute;
+      left: 0;
+      color: #2c7cb6;
+    }
+
+    .edu-detail {
+      margin-top: 0.2rem;
+      margin-bottom: 1rem;
+    }
+    .edu-degree {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+    .edu-college {
+      font-size: 0.88rem;
+      color: #2c3e50;
+      margin: 0.2rem 0 0.1rem;
+    }
+    .edu-cgpa {
+      font-size: 0.85rem;
+      color: #4a627a;
+    }
+
+    hr {
+      margin: 0.8rem 0;
+      border: 0;
+      border-top: 1px solid #e9edf2;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .resume { box-shadow: none; border: none; padding: 1.5rem 2rem; max-width: 100%; }
+    }
+  </style>
+
+      <style>
+        body * {
+          -webkit-text-stroke: 0.3px rgba(0,0,0,0.6) !important;
+          font-weight: 500 !important;
+        }
+        body h1, body h2, body h3, body h4, body .name, body .section-title {
+          -webkit-text-stroke: 0.8px rgba(0,0,0,0.8) !important;
+          font-weight: 900 !important;
+        }
+      </style>
+    </head>
+<body>
+<div class="resume">
+  <div class="name">JOHN DOE</div>
+  <div class="title">Full Stack Developer & Software Engineer | Full Stack Developer | Software Engineer</div>
+  
+  <div class="location-line">📍 New York, USA (Open to remote / relocation)</div>
+
+  <div class="contact-row">
+    <span>📞 +1 234 567 8900</span>
+    <span>✉️ <a href="mailto:john@example.com">john@example.com</a></span>
+    <span>🔗 GitHub: <a href="https://github.com/johndoe" target="_blank">github.com/johndoe</a></span>
+    <span>🔗 LinkedIn: <a href="https://linkedin.com/in/johndoe" target="_blank">linkedin.com/in/johndoe</a></span>
+    <span>🔗 Portfolio: <a href="https://johndoe.dev" target="_blank">johndoe.dev</a></span>
+  </div>
+
+  
+  <div class="section">
+    <div class="section-title">Summary</div>
+    <div class="summary-text">Passionate engineer with experience in building scalable web applications. Recognized for improving system efficiency by 40% using modern stack solutions.</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Key Metrics & Scale</div>
+    <ul class="projects-list">
+<li><span class='metric'>500+ concurrent users</span> supported on mobility platform backend</li>
+<li><span class='metric'>10,000+ daily ride requests</span> handled during peak hours</li>
+<li><span class='metric'>30% improvement</span> in pricing efficiency via dynamic pricing engine</li>
+<li><span class='metric'>40% lower API latency</span> (from ~280ms to ~165ms) after concurrency optimizations</li>
+</ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Experience</div>
+    
+        <div class="exp-item">
+          <div class="exp-header">
+            <span class="exp-role">Senior Software Engineer | TechNova Solutions</span>
+            <span class="exp-date">Jan 2021 – Present (3 Yrs)</span>
+          </div>
+          <div class="exp-desc">
+            <ul>
+              <li>Led the transition to a microservices architecture improving uptime to 99.99%.</li>
+<li>Mentored a team of 5 junior developers on React and Node.js best practices.</li>
+<li>Reduced application load time by 35% through image optimization.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="exp-item">
+          <div class="exp-header">
+            <span class="exp-role">Software Developer | Innovate Inc.</span>
+            <span class="exp-date">Jun 2018 – Dec 2020</span>
+          </div>
+          <div class="exp-desc">
+            <ul>
+              <li>Developed core features for the product dashboard serving 10k users.</li>
+<li>Integrated payment gateway processing $1M+ daily transactions.</li>
+<li>Wrote 100+ comprehensive automation unit tests using Jest.</li>
+            </ul>
+          </div>
+        </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Education</div>
+    
+        <div class="edu-detail">
+          <div class="edu-degree">Bachelor of Engineering (B.E) in Computer Science Engineering</div>
+          <div class="edu-college">St. Joseph's College of Engineering, Sriperumbudur</div>
+          <div class="edu-cgpa">8.4/10</div>
+        </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Achievements</div>
+    <ul class="projects-list">
+<li><span class='metric'>Published mobile app</span> on Play Store with real-time ride coordination and dynamic pricing live in production.</li>
+<li>Reduced infrastructure cost by <span class='metric'>25%</span> through optimized cloud resource allocation on AWS and GCP.</li>
+<li>Successfully integrated AI prompt engineering for automated customer support workflows (n8n automation).</li>
+</ul>
+  </div>
+
+  <hr>
+  <div style="font-size: 0.7rem; color: #8ba0ae; text-align: center; margin-top: 0.5rem;">
+    John Doe | Software Engineer Resume | 2024 | Full Stack Development | 5+ Years Experience
+  </div>
+</div>
+</body>
+</html>

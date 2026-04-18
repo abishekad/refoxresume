@@ -115,51 +115,56 @@ export default function renderAppleHardware(data) {
       color: #111;
     }
     .page {
-      max-width: 820px;
+      max-width: 100%;
       margin: 0 auto;
       background: #fff;
-      box-shadow: 0 3px 20px rgba(0,0,0,0.13);
+      box-shadow: none;
+      border: none;
     }
     .top-bar {
       background: #2c5f2e;
       height: 7px;
     }
-    .content { padding: 36px 52px 44px; }
+    .content { padding: 24px 36px 32px; }
 
     /* HEADER */
     .header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
       border-bottom: 1px solid #ccc;
-      padding-bottom: 16px;
-      margin-bottom: 18px;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
     }
     .header-left h1 {
       font-family: 'Georgia', serif;
-      font-size: 1.9rem;
+      font-size: 1.7rem;
       font-weight: 700;
       color: #111;
       letter-spacing: 0.5px;
+      margin-bottom: 0px;
     }
     .header-left .tagline {
       font-size: 0.80rem;
       color: #2c5f2e;
       font-weight: 700;
       font-family: 'Segoe UI', Arial, sans-serif;
-      margin-top: 4px;
+      margin-top: 2px;
       text-transform: uppercase;
       letter-spacing: 0.06em;
     }
     .header-right {
-      text-align: right;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px 10px;
       font-family: 'Segoe UI', Arial, sans-serif;
     }
     .contact-line {
       font-size: 0.72rem;
       color: #444;
-      margin-bottom: 3px;
       line-height: 1.5;
     }
     .contact-line a { color: #2c5f2e; text-decoration: none; }
@@ -338,7 +343,6 @@ export default function renderAppleHardware(data) {
     <div class="header">
       <div class="header-left">
         ${personal.fullName ? `<h1>${personal.fullName}</h1>` : ''}
-        ${personal.targetRole || personal.openTo ? `<div style="font-size: 0.75rem; color: #2c5f2e; font-weight: 600; margin-top: 4px; text-transform: uppercase;">🎯 ${personal.targetRole ? `Target Role: ${personal.targetRole}` : ''} ${personal.openTo ? `| Open to ${personal.openTo}` : ''}</div>` : ''}
         ${personal.professionalTitle || personal.currentRole || personal.subhead ? `<div class="tagline">${[personal.professionalTitle, personal.currentRole, personal.subhead].filter(Boolean).join(' | ')}</div>` : ''}
       </div>
       <div class="header-right">

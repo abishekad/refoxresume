@@ -13,7 +13,7 @@ export default function ExperienceForm({ data, update, label, onRename, onDelete
     <div className="exp-container">
       <SectionHeader icon="💼" title={label || "Work Experience"} action="ADD JOB" onAction={addExp} onRename={onRename} onDelete={onDelete} id={id} />
       {data.map((exp, idx) => (
-        <ItemCard key={exp.id} onRemove={data.length > 1 ? () => removeExp(idx) : undefined}>
+        <ItemCard key={exp.id} title={exp.jobTitle || "Job Title"} subtitle={exp.company || ""} onRemove={data.length > 1 ? () => removeExp(idx) : undefined}>
           <Label>Job Title</Label>
           <Input value={exp.jobTitle} onChange={(v) => updateExp(idx, "jobTitle", v)} placeholder="e.g. Software Engineer" />
           <div className="exp-grid-2">

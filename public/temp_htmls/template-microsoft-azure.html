@@ -1,105 +1,9 @@
-export default function renderMicrosoftAzure(data) {
-    const { personal = {}, footer = {} } = data;
-    const layout = data.layout || [];
-    
-    // Build contact links
-    const contactParts = [];
-    if (personal?.location)  contactParts.push(`<span>${personal.location}</span>`);
-    if (personal?.phone)     contactParts.push(`<span>${personal.phone}</span>`);
-    if (personal?.email)     contactParts.push(`<span>${personal.email}</span>`);
-    if (personal?.website)   contactParts.push(`<span><a href="${personal.website}" target="_blank" rel="noopener noreferrer">${personal.website.replace(/^https?:\/\//, '')}</a></span>`);
-    if (personal?.github)    contactParts.push(`<span><a href="${personal.github}" target="_blank" rel="noopener noreferrer">${personal.github.replace(/^https?:\/\//, '')}</a></span>`);
-    if (personal?.linkedin)  contactParts.push(`<span><a href="${personal.linkedin}" target="_blank" rel="noopener noreferrer">${personal.linkedin.replace(/^https?:\/\//, '')}</a></span>`);
-    const contactStr = contactParts.join('<span class="sep">|</span>');
-
-    const sections = [];
-
-    layout.forEach(sec => {
-        if (sec.id === 'personal' || sec.id === 'footer') return;
-
-        let htmlChunks = '';
-        const secData = data[sec.id];
-        
-        if (sec.type === 'textarea') {
-            htmlChunks = `<div class="summary-text">${secData || ''}</div>`;
-            if (secData) sections.push({ title: sec.label, html: htmlChunks });
-            return;
-        }
-
-        if (!secData || !Array.isArray(secData)) return;
-
-        if (sec.type === 'skills-repeater') {
-            htmlChunks = secData.filter(s => s.category || s.items).map(s => `<div class="skill-group"><div class="skill-cat">${s.category || ''}</div><div class="skill-items">${s.items || ''}</div></div>`).join('\n');
-            if (htmlChunks) sections.push({ title: sec.label, html: `<div class="skills-wrapper">\n${htmlChunks}\n</div>` });
-
-        } else if (sec.type === 'bullet-repeater') {
-            htmlChunks = secData.filter(s => s.text).map(m => `<li>${m.text}</li>`).join('\n');
-            // Check if it's certifications layout style (starts with ✓)
-            if (sec.id.includes('cert')) {
-                if (htmlChunks) sections.push({ title: sec.label, html: `<ul class="cert-list">\n${htmlChunks}\n</ul>` });
-            } else {
-                if (htmlChunks) sections.push({ title: sec.label, html: `<ul class="plain-list">\n${htmlChunks}\n</ul>` });
-            }
-
-        } else if (sec.type === 'exp-repeater') {
-            htmlChunks = secData.map(exp => {
-                let bullets = exp.bullets || [];
-                if (typeof bullets === 'string') bullets = bullets.split('\n');
-                const liHTML = bullets.filter(b => b.trim()).map(b => `<li>${b.trim()}</li>`).join('\n');
-                
-                if (!exp.jobTitle && !exp.company && !liHTML) return '';
-
-                return `
-                <div class="exp-item">
-                    <div class="exp-header">
-                        <span class="exp-role">${exp.jobTitle || ''}${exp.company ? ' | ' + exp.company : ''}</span>
-                        <span class="exp-date">${exp.startDate || ''} ${exp.endDate ? '– ' + exp.endDate : ''} ${exp.duration ? '(' + exp.duration + ')' : ''}</span>
-                    </div>
-                    ${exp.companyNote ? `<div class="exp-company">${exp.companyNote}</div>` : ''}
-                    ${liHTML ? `<div class="exp-desc"><ul>${liHTML}</ul></div>` : ''}
-                </div>`;
-            }).join('\n');
-            if (htmlChunks) sections.push({ title: sec.label, html: htmlChunks });
-
-        } else if (sec.type === 'project-repeater') {
-            htmlChunks = secData.map(proj => {
-                let bullets = proj.bullets || [];
-                if (typeof bullets === 'string') bullets = bullets.split('\n');
-                const desc = bullets.filter(b => b.trim()).map(b => b.trim()).join(' ') || proj.description || '';
-                const tech = proj.subtitle || '';
-                if (!proj.title && !desc) return '';
-                return `
-                <div class="project-card">
-                    <div class="project-title">${proj.title}</div>
-                    ${tech ? `<div class="project-tech">${tech}</div>` : ''}
-                    ${desc ? `<div class="project-desc">${desc}</div>` : ''}
-                </div>`;
-            }).join('\n');
-            if (htmlChunks) sections.push({ title: sec.label, html: `<div class="projects-grid">\n${htmlChunks}\n</div>` });
-
-        } else if (sec.type === 'edu-repeater') {
-            htmlChunks = secData.map(edu => {
-                const meta = [edu.cgpa ? 'CGPA: ' + edu.cgpa : '', edu.date || ''].filter(Boolean).join(' · ');
-                if (!edu.degree && !edu.school) return '';
-                return `
-                <div class="edu-item">
-                    <div class="edu-degree">${edu.degree || ''}</div>
-                    <div class="edu-school">${edu.school || ''}${edu.location ? ', ' + edu.location : ''}</div>
-                    ${meta ? `<div class="edu-meta">${meta}</div>` : ''}
-                </div>`;
-            }).join('\n');
-            if (htmlChunks) sections.push({ title: sec.label, html: htmlChunks });
-        }
-    });
-
-    const footerText = footer?.tagline || ('Full Stack Developer | ' + new Date().getFullYear());
-
-    return `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>${personal?.fullName || 'Resume'} · ATS Resume · Clean Corporate</title>
+    <title>JOHN DOE · ATS Resume · Clean Corporate</title>
     <style>
         /* ----- CORPORATE ATS OPTIMIZED · SINGLE COLUMN · HIGH SCANNABILITY ----- */
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -288,29 +192,99 @@ export default function renderMicrosoftAzure(data) {
             .resume { border: none; padding: 1.5rem; max-width: 100%; }
         }
     </style>
-</head>
+
+      <style>
+        body * {
+          -webkit-text-stroke: 0.3px rgba(0,0,0,0.6) !important;
+          font-weight: 500 !important;
+        }
+        body h1, body h2, body h3, body h4, body .name, body .section-title {
+          -webkit-text-stroke: 0.8px rgba(0,0,0,0.8) !important;
+          font-weight: 900 !important;
+        }
+      </style>
+    </head>
 <body>
 <div class="resume">
 
     <!-- HEADER -->
     <div class="header">
-        ${personal.fullName ? `<div class="name">${personal.fullName}</div>` : ''}
-        ${personal.professionalTitle || personal.currentRole || personal.subhead ? `<div class="title">${[personal.professionalTitle, personal.currentRole, personal.subhead].filter(Boolean).join(' | ')}</div>` : ''}
+        <div class="name">JOHN DOE</div>
+        <div class="title">Full Stack Developer & Software Engineer | Software Engineer | Full Stack Developer</div>
         <div class="contact">
-            ${contactStr}
+            <span>New York, USA</span><span class="sep">|</span><span>+1 234 567 8900</span><span class="sep">|</span><span>john@example.com</span><span class="sep">|</span><span><a href="johndoe.dev" target="_blank" rel="noopener noreferrer">johndoe.dev</a></span><span class="sep">|</span><span><a href="github.com/johndoe" target="_blank" rel="noopener noreferrer">github.com/johndoe</a></span><span class="sep">|</span><span><a href="linkedin.com/in/johndoe" target="_blank" rel="noopener noreferrer">linkedin.com/in/johndoe</a></span>
         </div>
     </div>
 
-    ${sections.map(sec => `
+    
     <div class="section">
-        <div class="section-title">${sec.title}</div>
-        ${sec.html}
-    </div>`).join('\n')}
+        <div class="section-title">Summary</div>
+        <div class="summary-text">Passionate engineer with experience in building scalable web applications. Recognized for improving system efficiency by 40% using modern stack solutions.</div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Experience</div>
+        
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <span class="exp-role">Senior Software Engineer | TechNova Solutions</span>
+                        <span class="exp-date">Jan 2021 – Present (3 Yrs)</span>
+                    </div>
+                    
+                    <div class="exp-desc"><ul><li>Led the transition to a microservices architecture improving uptime to 99.99%.</li>
+<li>Mentored a team of 5 junior developers on React and Node.js best practices.</li>
+<li>Reduced application load time by 35% through image optimization.</li></ul></div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-header">
+                        <span class="exp-role">Software Developer | Innovate Inc.</span>
+                        <span class="exp-date">Jun 2018 – Dec 2020 </span>
+                    </div>
+                    
+                    <div class="exp-desc"><ul><li>Developed core features for the product dashboard serving 10k users.</li>
+<li>Integrated payment gateway processing $1M+ daily transactions.</li>
+<li>Wrote 100+ comprehensive automation unit tests using Jest.</li></ul></div>
+                </div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Projects</div>
+        <div class="projects-grid">
+
+                <div class="project-card">
+                    <div class="project-title">E-Commerce Platform</div>
+                    
+                    <div class="project-desc">Built a fully responsive e-commerce site using Next.js and Stripe.</div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">AI Customer Support Chatbot</div>
+                    
+                    <div class="project-desc">Integrated large language models to resolve 50% of customer support inquiries.</div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-title">FinTech Dashboard Analytics</div>
+                    
+                    <div class="project-desc">Visualized real-time crypto trading volume using D3.js and WebSockets.</div>
+                </div>
+</div>
+    </div>
+
+    <div class="section">
+        <div class="section-title">Education</div>
+        
+                <div class="edu-item">
+                    <div class="edu-degree">Bachelor of Engineering (B.E) in Computer Science Engineering</div>
+                    <div class="edu-school">St. Joseph's College of Engineering, Sriperumbudur</div>
+                    <div class="edu-meta">CGPA: 8.4/10 · 2025</div>
+                </div>
+    </div>
 
     <!-- FOOTER -->
-    <div class="footer">${footerText}</div>
+    <div class="footer">John Doe | Software Engineer Resume | 2024</div>
 
 </div>
 </body>
-</html>`;
-}
+</html>

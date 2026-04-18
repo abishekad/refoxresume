@@ -82,8 +82,8 @@ export default function PreviewPage({ user, isPaid, selectedTemplate }) {
         <button onClick={() => navigate(`/editor/${selectedTemplate.id}`)} style={{ background: "transparent", color: C.mutedLight, border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontSize: 14 }}>
           <span>← Back to Editor</span>
         </button>
-        <NeonButton onClick={() => navigate(isPaid ? '/download' : '/payment')} size="sm">
-          {isPaid ? "Download Options" : "Download (₹29)"}
+        <NeonButton onClick={() => navigate('/download')} size="sm">
+          Download Options (Test)
         </NeonButton>
       </div>
 

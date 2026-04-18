@@ -12,7 +12,7 @@ export default function SkillsForm({ data, update, label, onRename, onDelete, id
     <div className="skills-container">
       <SectionHeader icon="⚡" title={label || "Technical Skills"} action="ADD CATEGORY" onAction={addSkill} onRename={onRename} onDelete={onDelete} id={id} />
       {safeData.map((skill, idx) => (
-        <ItemCard key={skill.id || idx} onRemove={safeData.length > 1 ? () => removeSkill(idx) : undefined}>
+        <ItemCard key={skill.id || idx} title={skill.category || "Skill Category"} subtitle={skill.items || ""} onRemove={safeData.length > 1 ? () => removeSkill(idx) : undefined}>
           <Label>Category</Label>
           <Input value={skill.category} onChange={(v) => updateSkill(idx, "category", v)} placeholder="e.g. Frontend, Data Science" />
           <div className="skills-mt-14">

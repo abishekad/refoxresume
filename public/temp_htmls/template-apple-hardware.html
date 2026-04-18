@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JOHN DOE · Resume</title>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #e9ecef;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      padding: 30px 16px;
+      color: #111;
+    }
+    .page {
+      max-width: 100%;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: none;
+      border: none;
+    }
+    .top-bar {
+      background: #2c5f2e;
+      height: 7px;
+    }
+    .content { padding: 24px 36px 32px; }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 6px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+      margin-bottom: 12px;
+    }
+    .header-left h1 {
+      font-family: 'Georgia', serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #111;
+      letter-spacing: 0.5px;
+      margin-bottom: 0px;
+    }
+    .header-left .tagline {
+      font-size: 0.80rem;
+      color: #2c5f2e;
+      font-weight: 700;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin-top: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .header-right {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 4px 10px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .contact-line {
+      font-size: 0.72rem;
+      color: #444;
+      line-height: 1.5;
+    }
+    .contact-line a { color: #2c5f2e; text-decoration: none; }
+    .contact-line a:hover { text-decoration: underline; }
+
+    /* TWO COLUMN */
+    .body-grid {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 0 32px;
+    }
+
+    /* SECTION */
+    .section { margin-bottom: 18px; }
+    .section-title {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #2c5f2e;
+      margin-bottom: 8px;
+      padding-bottom: 3px;
+      border-bottom: 2px solid #2c5f2e;
+    }
+    .summary-text {
+      font-size: 0.79rem;
+      line-height: 1.6;
+      color: #222;
+      font-family: 'Georgia', serif;
+    }
+
+    /* EXPERIENCE */
+    .exp-item { margin-bottom: 13px; }
+    .exp-role-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    .exp-role {
+      font-size: 0.83rem;
+      font-weight: 700;
+      color: #111;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .exp-date {
+      font-size: 0.69rem;
+      color: #666;
+      font-style: italic;
+      font-family: 'Georgia', serif;
+      white-space: nowrap;
+    }
+    .exp-company {
+      font-size: 0.74rem;
+      color: #2c5f2e;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    .exp-desc ul { list-style: none; padding: 0; }
+    .exp-desc li {
+      font-size: 0.77rem;
+      font-family: 'Georgia', serif;
+      line-height: 1.55;
+      color: #222;
+      margin-bottom: 3px;
+      padding-left: 12px;
+      position: relative;
+    }
+    .exp-desc li::before {
+      content: '–';
+      position: absolute;
+      left: 0;
+      color: #2c5f2e;
+      font-weight: 700;
+    }
+
+    /* RIGHT COLUMN */
+    .right-col { border-left: 1px solid #ddd; padding-left: 22px; }
+    .rc-section { margin-bottom: 18px; }
+    .rc-section-title {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: #2c5f2e;
+      border-bottom: 2px solid #2c5f2e;
+      padding-bottom: 3px;
+      margin-bottom: 8px;
+    }
+    .skill-row { margin-bottom: 8px; }
+    .skill-cat {
+      font-size: 0.66rem;
+      font-weight: 700;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #444;
+      margin-bottom: 2px;
+    }
+    .skill-val {
+      font-size: 0.73rem;
+      color: #222;
+      font-family: 'Georgia', serif;
+      line-height: 1.4;
+    }
+    .proj-item { margin-bottom: 10px; }
+    .proj-title {
+      font-size: 0.77rem;
+      font-weight: 700;
+      color: #111;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .proj-tech {
+      font-size: 0.66rem;
+      color: #666;
+      font-style: italic;
+      font-family: 'Georgia', serif;
+      margin-bottom: 2px;
+    }
+    .proj-desc {
+      font-size: 0.72rem;
+      line-height: 1.4;
+      color: #333;
+      font-family: 'Georgia', serif;
+    }
+    .edu-deg {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: #111;
+      font-family: 'Segoe UI', Arial, sans-serif;
+    }
+    .edu-school {
+      font-size: 0.71rem;
+      color: #444;
+      font-family: 'Georgia', serif;
+      margin-top: 1px;
+    }
+    .edu-meta {
+      font-size: 0.67rem;
+      color: #777;
+      font-family: 'Georgia', serif;
+      margin-top: 1px;
+    }
+    .cert-item {
+      font-size: 0.72rem;
+      color: #222;
+      font-family: 'Georgia', serif;
+      margin-bottom: 4px;
+      padding-left: 10px;
+      position: relative;
+      line-height: 1.4;
+    }
+    .cert-item::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: #2c5f2e;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .page { box-shadow: none; }
+    }
+  </style>
+
+      <style>
+        body * {
+          -webkit-text-stroke: 0.3px rgba(0,0,0,0.6) !important;
+          font-weight: 500 !important;
+        }
+        body h1, body h2, body h3, body h4, body .name, body .section-title {
+          -webkit-text-stroke: 0.8px rgba(0,0,0,0.8) !important;
+          font-weight: 900 !important;
+        }
+      </style>
+    </head>
+<body>
+<div class="page">
+  <div class="top-bar"></div>
+  <div class="content">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="header-left">
+        <h1>JOHN DOE</h1>
+        <div class="tagline">Full Stack Developer & Software Engineer | Software Engineer | Full Stack Developer</div>
+      </div>
+      <div class="header-right">
+        <div class="contact-line">New York, USA</div>
+        <div class="contact-line">+1 234 567 8900</div>
+        <div class="contact-line"><a href="mailto:john@example.com">john@example.com</a></div>
+        <div class="contact-line"><a href="johndoe.dev" target="_blank" rel="noopener noreferrer">johndoe.dev</a></div>
+        <div class="contact-line"><a href="github.com/johndoe" target="_blank" rel="noopener noreferrer">github.com/johndoe</a></div>
+        <div class="contact-line"><a href="linkedin.com/in/johndoe" target="_blank" rel="noopener noreferrer">linkedin.com/in/johndoe</a></div>
+      </div>
+    </div>
+
+    <!-- BODY GRID -->
+    <div class="body-grid">
+
+      <!-- LEFT COLUMN -->
+      <div class="left-col">
+        
+        <div class="section">
+          <div class="section-title">Summary</div>
+          <p class="summary-text">Passionate engineer with experience in building scalable web applications. Recognized for improving system efficiency by 40% using modern stack solutions.</p>
+        </div>
+
+        <div class="section">
+          <div class="section-title">Experience</div>
+          
+                <div class="exp-item">
+                    <div class="exp-role-line">
+                        <span class="exp-role">Senior Software Engineer</span>
+                        <span class="exp-date">Jan 2021 – Present (3 Yrs)</span>
+                    </div>
+                    <div class="exp-company">TechNova Solutions</div>
+                    <div class="exp-desc"><ul><li>Led the transition to a microservices architecture improving uptime to 99.99%.</li>
+                <li>Mentored a team of 5 junior developers on React and Node.js best practices.</li>
+                <li>Reduced application load time by 35% through image optimization.</li></ul></div>
+                </div>
+
+                <div class="exp-item">
+                    <div class="exp-role-line">
+                        <span class="exp-role">Software Developer</span>
+                        <span class="exp-date">Jun 2018 – Dec 2020</span>
+                    </div>
+                    <div class="exp-company">Innovate Inc.</div>
+                    <div class="exp-desc"><ul><li>Developed core features for the product dashboard serving 10k users.</li>
+                <li>Integrated payment gateway processing $1M+ daily transactions.</li>
+                <li>Wrote 100+ comprehensive automation unit tests using Jest.</li></ul></div>
+                </div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <div class="right-col">
+        
+        <div class="rc-section">
+          <div class="rc-section-title">Projects</div>
+          
+                    <div class="proj-item">
+                        <div class="proj-title">E-Commerce Platform</div>
+                        
+                        <div class="proj-desc">Built a fully responsive e-commerce site using Next.js and Stripe.</div>
+                    </div>
+
+                    <div class="proj-item">
+                        <div class="proj-title">AI Customer Support Chatbot</div>
+                        
+                        <div class="proj-desc">Integrated large language models to resolve 50% of customer support inquiries.</div>
+                    </div>
+
+                    <div class="proj-item">
+                        <div class="proj-title">FinTech Dashboard Analytics</div>
+                        
+                        <div class="proj-desc">Visualized real-time crypto trading volume using D3.js and WebSockets.</div>
+                    </div>
+        </div>
+
+        <div class="rc-section">
+          <div class="rc-section-title">Education</div>
+          
+                    <div style="margin-bottom: 10px;">
+                        <div class="edu-deg">Bachelor of Engineering (B.E) in Computer Science Engineering</div>
+                        <div class="edu-school">St. Joseph's College of Engineering, Sriperumbudur</div>
+                        <div class="edu-meta">CGPA: 8.4/10 · 2025</div>
+                    </div>
+        </div>
+
+        <div class="rc-section">
+          <div class="rc-section-title">Achievements</div>
+          <div class="exp-desc"><ul>
+<li><span class='metric'>Published mobile app</span> on Play Store with real-time ride coordination and dynamic pricing live in production.</li>
+                <li>Reduced infrastructure cost by <span class='metric'>25%</span> through optimized cloud resource allocation on AWS and GCP.</li>
+                <li>Successfully integrated AI prompt engineering for automated customer support workflows (n8n automation).</li>
+</ul></div>
+        </div>
+      </div>
+
+    </div><!-- end body-grid -->
+  </div><!-- end content -->
+</div>
+</body>
+</html>

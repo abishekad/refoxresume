@@ -103,38 +103,41 @@ export default function renderAmazonSDE(data) {
       padding: 2rem 1rem;
     }
     .ats-resume {
-      max-width: 1000px;
+      max-width: 100%;
       margin: 0 auto;
       background: white;
-      border: 1px solid #d0d7de;
-      padding: 2rem 2.2rem;
+      border: none;
+      padding: 1.5rem 2rem;
       border-radius: 0px;
     }
     h1 {
-      font-size: 2.2rem;
+      font-size: 2rem;
       font-weight: 700;
       letter-spacing: -0.5px;
       color: #111;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.1rem;
       text-transform: uppercase;
+      text-align: center;
     }
     .subhead {
       font-size: 1rem;
       font-weight: 500;
       color: #2c3e50;
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.4rem;
       border-bottom: 1px solid #e2e8f0;
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.3rem;
+      text-align: center;
     }
     .contact-bar {
       display: flex;
       flex-wrap: wrap;
-      gap: 1.5rem;
-      margin: 0.75rem 0 1.25rem 0;
+      justify-content: center;
+      gap: 1rem;
+      margin: 0.4rem 0 0.8rem 0;
       font-size: 0.85rem;
       color: #1e2f3e;
       border-bottom: 1px solid #e9ecef;
-      padding-bottom: 1rem;
+      padding-bottom: 0.6rem;
     }
     .contact-bar a {
       color: #0a5b83;
@@ -276,8 +279,6 @@ export default function renderAmazonSDE(data) {
 <body>
 <div class="ats-resume">
   ${personal.fullName ? `<h1>${personal.fullName}</h1>` : ''}
-  
-  ${personal.targetRole || personal.openTo ? `<div style="font-size: 0.9rem; font-weight: 600; color: #1f5e8c; margin-bottom: 0.5rem;">🎯 ${personal.targetRole ? `Target Role: ${personal.targetRole}` : ''} ${personal.openTo ? `| Open to ${personal.openTo}` : ''}</div>` : ''}
   
   ${personal.professionalTitle || personal.subhead || personal.currentRole ? `<div class="subhead">${[personal.professionalTitle, personal.subhead, personal.currentRole].filter(Boolean).join(' | ')}</div>` : ''}
 

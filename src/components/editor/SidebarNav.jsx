@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { C } from "../../App";
-import { Plus } from 'lucide-react';
+import { Plus, GripVertical } from 'lucide-react';
+import { Reorder, motion } from 'framer-motion';
 
 const ICON_MAP = {
   'personal': '👤',
@@ -13,37 +14,45 @@ const ICON_MAP = {
   'footer': '🏷️'
 };
 
-export default function SidebarNav({ sections, activeTab, onChange, onAdd }) {
+export default function SidebarNav({ sections, activeTab, onChange, onAdd, onReorder }) {
   const [hoverId, setHoverId] = useState(null);
 
+  // Filter out 'footer' from drag items if we want to keep it locked, but currently all are draggable
+  // For safety, let's keep all reorderable, or just let users reorder anything.
   return (
     <div style={{ width: 170, borderRight: "1px solid rgba(255,255,255,0.05)", padding: "0 12px", display: "flex", flexDirection: "column", gap: 4 }}>
       <div style={{ flex: 1, overflowY: "auto", display: "flex", flexDirection: "column", gap: 4 }}>
-        {sections.map(tab => {
-           return (
-             <div
-               key={tab.id}
-               onMouseEnter={() => setHoverId(tab.id)}
-               onMouseLeave={() => setHoverId(null)}
-               onClick={() => onChange(tab.id)}
-               style={{
-                 padding: "10px 14px",
-                 borderRadius: 12,
-                 cursor: "pointer",
-                 position: "relative",
-                 display: "flex", alignItems: "flex-start", gap: 10,
-                 background: activeTab === tab.id ? "rgba(0,255,136,0.06)" : "transparent",
-                 border: `1px solid ${activeTab === tab.id ? "rgba(0,255,136,0.3)" : "transparent"}`,
-                 transition: "all 0.2s"
-               }}
-             >
-               <span style={{ fontSize: 16, marginTop: 1 }}>{ICON_MAP[tab.type] || '📄'}</span>
-               <span style={{ flex: 1, fontSize: 12, fontWeight: activeTab === tab.id ? 700 : 500, color: activeTab === tab.id ? C.primary : C.mutedLight, lineHeight: 1.2, wordBreak: 'break-word' }}>
-                 {tab.label}
-               </span>
-             </div>
-           );
-        })}
+        <Reorder.Group axis="y" values={sections} onReorder={onReorder} style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {sections.map(tab => {
+             return (
+               <Reorder.Item
+                 key={tab.id}
+                 value={tab}
+                 onMouseEnter={() => setHoverId(tab.id)}
+                 onMouseLeave={() => setHoverId(null)}
+                 onClick={() => onChange(tab.id)}
+                 style={{
+                   padding: "10px 14px",
+                   borderRadius: 12,
+                   cursor: "pointer",
+                   position: "relative",
+                   display: "flex", alignItems: "center", gap: 10,
+                   background: activeTab === tab.id ? "rgba(0,255,136,0.06)" : "transparent",
+                   border: `1px solid ${activeTab === tab.id ? "rgba(0,255,136,0.3)" : "transparent"}`,
+                   transition: "background 0.2s, border 0.2s"
+                 }}
+               >
+                 <motion.div style={{ display: 'flex', cursor: 'grab', opacity: hoverId === tab.id || activeTab === tab.id ? 1 : 0.3 }} whileHover={{ scale: 1.1 }}>
+                    <GripVertical size={14} color={C.mutedLight} style={{ marginLeft: -6 }} />
+                 </motion.div>
+                 <span style={{ fontSize: 16 }}>{ICON_MAP[tab.type] || '📄'}</span>
+                 <span style={{ flex: 1, fontSize: 12, fontWeight: activeTab === tab.id ? 700 : 500, color: activeTab === tab.id ? C.primary : C.mutedLight, lineHeight: 1.2, wordBreak: 'break-word' }}>
+                   {tab.label}
+                 </span>
+               </Reorder.Item>
+             );
+          })}
+        </Reorder.Group>
       </div>
       
       <div style={{ marginTop: 24, padding: "10px 0" }}>

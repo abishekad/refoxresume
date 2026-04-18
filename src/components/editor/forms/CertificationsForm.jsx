@@ -10,7 +10,7 @@ export default function CertificationsForm({ data, update, label, onRename, onDe
     <div className="cert-container">
       <SectionHeader icon="📜" title={label || "Certifications"} action="ADD CERTIFICATION" onAction={addCert} onRename={onRename} onDelete={onDelete} id={id} />
       {(data || []).map((cert, idx) => (
-        <ItemCard key={cert.id} onRemove={(data || []).length > 1 ? () => removeCert(idx) : undefined}>
+        <ItemCard key={cert.id} title={cert.name || "Certification"} subtitle={cert.issuer || ""} onRemove={(data || []).length > 1 ? () => removeCert(idx) : undefined}>
           <Label>Certification Name</Label>
           <Input value={cert.name} onChange={(v) => updateCert(idx, "name", v)} placeholder="e.g. AWS Certified Developer" />
           <div className="cert-mt-14"><Label>Issuer</Label>
