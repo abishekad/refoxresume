@@ -317,7 +317,7 @@ export default function renderAmazonSDE(data) {
 
   <hr />
   <div style="font-size: 0.75rem; color: #4b5563; text-align: left; margin-top: 0.8rem;">
-    ${footer.skillsHighlight || footer.tagline || 'John Doe | Senior Software Engineer'} ${footer.yearsExperience ? `| ${footer.yearsExperience}` : '| 8+ Years Experience'}
+    ${footer.tagline || `${personal.fullName || 'Resume'} | ${personal.professionalTitle || personal.currentRole || 'Software Engineer'}`}
   </div>
 </div>
 </body>

@@ -7,6 +7,7 @@ import { createDefaultFormData } from "./data/resumeSchema";
 import { supabase } from "./services/supabase";
 import { useUndoRedo } from "./hooks/useUndoRedo";
 import ATSScoreBar from "./components/editor/ATSScoreBar";
+import AIChatPanel from "./components/editor/AIChatPanel";
 import { Undo2, Redo2 } from "lucide-react";
 
 // Fallback configuration if template strictly hasn't loaded yet
@@ -198,6 +199,9 @@ export default function EditorPage({ setPage, selectedTemplate, user, isPaid }) 
               onRename={renameSection}
               onDelete={deleteSection}
             />
+
+            {/* ─── AI Resume Generator ─── */}
+            <AIChatPanel form={form} setForm={setForm} />
           </div>
         </div>
 

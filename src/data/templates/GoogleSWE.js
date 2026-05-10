@@ -331,7 +331,7 @@ export default function renderGoogleSWE(data) {
 
   <hr>
   <div style="font-size: 0.7rem; color: #8ba0ae; text-align: center; margin-top: 0.5rem;">
-    ${footer.tagline || 'John Doe | Software Engineer Resume | 2024'} | ${footer.skillsHighlight || 'Full Stack Development'} | ${footer.yearsExperience || '5+ Years Experience'}
+    ${footer.tagline || `${personal.fullName || 'Resume'} | ${personal.professionalTitle || personal.currentRole || 'Software Engineer'} Resume | ${new Date().getFullYear()}`}
   </div>
 </div>
 </body>

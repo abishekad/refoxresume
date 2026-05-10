@@ -91,7 +91,7 @@ function AppContent() {
         <Route path="/templates" element={<TemplatesPage setPage={goTo} onSelectTemplate={setSelectedTemplate} />} />
         
         {/* Guarded Routes */}
-        <Route path="/editor/:templateId" element={<EditorPageWrapper setPage={goTo} selectedTemplate={selectedTemplate} user={user} isPaid={isPaid} />} />
+        <Route path="/editor/:templateId" element={<EditorPageWrapper setPage={goTo} selectedTemplate={selectedTemplate} onSelectTemplate={setSelectedTemplate} user={user} isPaid={isPaid} />} />
         <Route path="/preview" element={<PreviewPage user={user} isPaid={isPaid} setPage={goTo} selectedTemplate={selectedTemplate} />} />
         <Route path="/download" element={<DownloadPage user={user} isPaid={isPaid} setPage={goTo} selectedTemplate={selectedTemplate} />} />
         

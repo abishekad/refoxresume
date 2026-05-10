@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import Watermark from "./Watermark";
+import { autoFitIframeContent } from "../../utils/autoFit";
 
 export default function LivePreview({ renderHTML, data, activeTab, isPaid }) {
   const previewRef = useRef(null);
@@ -24,54 +25,57 @@ export default function LivePreview({ renderHTML, data, activeTab, isPaid }) {
       doc.write(htmlString);
       doc.close();
 
-      // Detect if user clicked a new left-sidebar tab
-      let tabChanged = false;
-      if (activeTab !== lastTabRef.current) {
-         tabChanged = true;
-         lastTabRef.current = activeTab;
-      }
+      // Automatically scale fonts up/down to fit an A4 height (1100px)
+      autoFitIframeContent(iframe, 1100).then(() => {
+        // Detect if user clicked a new left-sidebar tab
+        let tabChanged = false;
+        if (activeTab !== lastTabRef.current) {
+           tabChanged = true;
+           lastTabRef.current = activeTab;
+        }
 
-      // Automatically snap preview right to the active section they are editing!
-      if (tabChanged) {
-         const map = {
-            personal: '.name',
-            summary: 'Summary',
-            skills: 'Skills',
-            keyMetrics: 'Metrics',
-            experience: 'Experience',
-            projects: 'Projects',
-            education: 'Education',
-            achievements: 'Achievements',
-            certifications: 'Certifications',
-            footer: '.footer-tagline'
-         };
-         
-         const titleMatch = map[activeTab];
-         let targetEl = null;
+        // Automatically snap preview right to the active section they are editing!
+        if (tabChanged) {
+           const map = {
+              personal: '.name',
+              summary: 'Summary',
+              skills: 'Skills',
+              keyMetrics: 'Metrics',
+              experience: 'Experience',
+              projects: 'Projects',
+              education: 'Education',
+              achievements: 'Achievements',
+              certifications: 'Certifications',
+              footer: '.footer-tagline'
+           };
+           
+           const titleMatch = map[activeTab];
+           let targetEl = null;
 
-         if (titleMatch) {
-             if (titleMatch.startsWith('.')) {
-                targetEl = doc.querySelector(titleMatch);
-             } else {
-                const titles = Array.from(doc.querySelectorAll('.section-title'));
-                // Find matching section title element
-                targetEl = titles.find(t => t.textContent.includes(titleMatch));
-             }
-         }
+           if (titleMatch) {
+               if (titleMatch.startsWith('.')) {
+                  targetEl = doc.querySelector(titleMatch);
+               } else {
+                  const titles = Array.from(doc.querySelectorAll('.section-title'));
+                  // Find matching section title element
+                  targetEl = titles.find(t => t.textContent.includes(titleMatch));
+               }
+           }
 
-         if (targetEl) {
-            setTimeout(() => {
-               targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-               setTimeout(() => { scrollPosRef.current = win.scrollY; }, 500);
-            }, 10);
-         } else {
-            win.scrollTo(0, prevScroll);
-         }
-      } else {
-         // User is just typing actively: keep scroll perfectly frozen where they are looking
-         win.scrollTo(0, prevScroll);
-         scrollPosRef.current = prevScroll;
-      }
+           if (targetEl) {
+              setTimeout(() => {
+                 targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                 setTimeout(() => { scrollPosRef.current = win.scrollY; }, 500);
+              }, 10);
+           } else {
+              win.scrollTo(0, prevScroll);
+           }
+        } else {
+           // User is just typing actively: keep scroll perfectly frozen where they are looking
+           win.scrollTo(0, prevScroll);
+           scrollPosRef.current = prevScroll;
+        }
+      });
     } else {
       // Fallback 
       const blob = new Blob([htmlString], { type: 'text/html' });

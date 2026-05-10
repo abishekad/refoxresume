@@ -4,7 +4,7 @@ import EditorPage from "../EditorPage";
 import { TEMPLATE_REGISTRY } from "../data/templateRegistry";
 
 // This wrapper guards the /editor/:templateId route
-export default function EditorPageWrapper({ setPage, selectedTemplate, user, isPaid }) {
+export default function EditorPageWrapper({ setPage, selectedTemplate, onSelectTemplate, user, isPaid }) {
   const { templateId } = useParams();
   const navigate = useNavigate();
 
@@ -16,8 +16,10 @@ export default function EditorPageWrapper({ setPage, selectedTemplate, user, isP
   useEffect(() => {
     if (!template) {
       navigate('/templates', { replace: true });
+    } else if (!selectedTemplate && onSelectTemplate) {
+      onSelectTemplate(template);
     }
-  }, [template, navigate]);
+  }, [template, selectedTemplate, onSelectTemplate, navigate]);
 
   if (!template) {
     return <div style={{ minHeight: '100vh', background: '#000', color: '#fff', padding: 100 }}>Loading editor...</div>;
