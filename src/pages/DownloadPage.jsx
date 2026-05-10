@@ -78,14 +78,33 @@ export default function DownloadPage({ user, isPaid, setPage, selectedTemplate }
       // Wait for auto-fit scaling logic to run and finish adjusting the root font-size
       await autoFitIframeContent(iframe, 1123);
 
+      // CRITICAL FIX: html2canvas (used by html2pdf) often fails to read stylesheets
+      // from an iframe's head, especially when dynamically written.
+      // We must copy all <style> tags from the <head> to the <body> so they are included
+      // when html2pdf captures doc.body.
+      const styles = doc.head.querySelectorAll('style');
+      styles.forEach(style => {
+        doc.body.appendChild(style.cloneNode(true));
+      });
+
+      const currentFontSize = doc.documentElement.style.fontSize;
+
       const element = doc.body;
 
       const opt = {
         margin:       0,
         filename:     getFileName('pdf'),
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+        html2canvas:  { 
+          scale: 2, 
+          useCORS: true,
+          onclone: (clonedDoc) => {
+            // Apply the scaled font-size calculated by autoFitIframeContent
+            // so that 'rem' units in the cloned document render at the correct scaled size
+            clonedDoc.documentElement.style.fontSize = currentFontSize;
+          }
+        },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
       await html2pdf().set(opt).from(element).save();
